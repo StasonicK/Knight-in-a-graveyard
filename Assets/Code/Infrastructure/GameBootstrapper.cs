@@ -1,14 +1,14 @@
-using System;
 using UnityEngine;
 
-public class GameBootstrapper : MonoBehaviour
+public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
 {
-    [SerializeField] private Game _game;
-    
+    private Game _game;
+
     private void Awake()
     {
         _game = new Game();
-        
+        _game.StateMachine.Enter<BootstrapState>();
+
         DontDestroyOnLoad(this);
     }
 }
