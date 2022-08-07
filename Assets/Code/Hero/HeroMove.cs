@@ -1,42 +1,36 @@
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public class HeroMove : MonoBehaviour
 {
-    public CharacterController CharacterController;
-    public float MovementSpeed;
+    [SerializeField] private float _movementSpeed = 10f;
 
+    private CharacterController _characterController;
     private IInputService _inputService;
-    private Camera _camera;
+    private HeroAnimator _heroAnimator;
 
     private void Awake()
     {
         _inputService = Game.InputService;
-    }
 
-    private void Start()
-    {
-        _camera = Camera.main;
-
-        CameraFollowing();
+        _characterController = GetComponent<CharacterController>();
+        _heroAnimator = GetComponent<HeroAnimator>();
     }
 
     private void Update()
     {
         Vector3 movementVector = Vector3.zero;
 
-        if (_inputService.Axis.sqrMagnitude > Constants.Epsilon)
+        if (!_heroAnimator.IsAttacking && _inputService.Axis.sqrMagnitude > Constants.Epsilon)
         {
-            movementVector = _camera.transform.TransformDirection(_inputService.Axis);
+            movementVector = Camera.main.transform.TransformDirection(_inputService.Axis);
             movementVector.y = 0;
             movementVector.Normalize();
-
             transform.forward = movementVector;
         }
 
         movementVector += Physics.gravity;
 
-        CharacterController.Move(MovementSpeed * movementVector * Time.deltaTime);
+        _characterController.Move(_movementSpeed / 10 * movementVector * Time.deltaTime);
     }
-
-    private void CameraFollowing() => _camera.GetComponent<CameraFollowing>().Follow(gameObject);
 }
