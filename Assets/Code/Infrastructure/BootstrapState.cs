@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BootstrapState : IState
 {
@@ -19,9 +18,7 @@ public class BootstrapState : IState
         _sceneLoader.Load(name: Initial, onLoaded: EnterLoadLevel);
     }
 
-    private void EnterLoadLevel()
-    {
-    }
+    private void EnterLoadLevel() => _stateMachine.Enter<LoadLevelState>();
 
     private void RegisterServices()
     {
