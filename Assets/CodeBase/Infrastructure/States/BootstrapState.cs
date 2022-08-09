@@ -13,13 +13,11 @@ public class BootstrapState : IState
         _stateMachine = stateMachine;
         _sceneLoader = sceneLoader;
         _services = services;
+
+        RegisterServices();
     }
 
-    public void Enter()
-    {
-        RegisterServices();
-        _sceneLoader.Load(name: Initial, onLoaded: EnterLoadLevel);
-    }
+    public void Enter() => _sceneLoader.Load(name: Initial, onLoaded: EnterLoadLevel);
 
     private void EnterLoadLevel() => _stateMachine.Enter<LoadLevelState, string>("Main");
 
