@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(CharacterController))]
-public class HeroMove : MonoBehaviour
+public class HeroMove : MonoBehaviour, ISavedProgress
 {
     [SerializeField] private float _movementSpeed = 10f;
 
@@ -12,7 +13,6 @@ public class HeroMove : MonoBehaviour
     private void Awake()
     {
         _inputService = AllServices.Container.Single<IInputService>();
-
         _characterController = GetComponent<CharacterController>();
         _heroAnimator = GetComponent<HeroAnimator>();
     }
@@ -30,7 +30,29 @@ public class HeroMove : MonoBehaviour
         }
 
         movementVector += Physics.gravity;
+        _characterController.Move(_movementSpeed * movementVector * Time.deltaTime);
+    }
 
-        _characterController.Move(_movementSpeed / 10 * movementVector * Time.deltaTime);
+    public void UpdateProgress(PlayerProgress progress) =>
+        progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVectorData());
+
+    private static string CurrentLevel() => SceneManager.GetActiveScene().name;
+
+    public void LoadProgress(PlayerProgress progress)
+    {
+        if (CurrentLevel() == progress.WorldData.PositionOnLevel.Level)
+        {
+            Vector3Data savedPosition = progress.WorldData.PositionOnLevel.Position;
+
+            if (savedPosition != null)
+                Warp(to: savedPosition);
+        }
+    }
+
+    private void Warp(Vector3Data to)
+    {
+        _characterController.enabled = false;
+        transform.position = to.AsUnityVector();
+        _characterController.enabled = true;
     }
 }
