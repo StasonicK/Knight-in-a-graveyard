@@ -3,13 +3,16 @@
 public class BootstrapState : IState
 {
     private const string Initial = "Initial";
+
     private readonly GameStateMachine _stateMachine;
     private readonly SceneLoader _sceneLoader;
+    private AllServices _services;
 
-    public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+    public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
     {
         _stateMachine = stateMachine;
         _sceneLoader = sceneLoader;
+        _services = services;
     }
 
     public void Enter()
@@ -22,14 +25,17 @@ public class BootstrapState : IState
 
     private void RegisterServices()
     {
-        Game.InputService = RegisterInputService();
+        _services.RegisterSingle<IInputService>(InputService());
+        _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+        _services.RegisterSingle<IGameFactory>(
+            new GameFactory(_services.Single<IAssetProvider>()));
     }
 
     public void Exit()
     {
     }
 
-    private static IInputService RegisterInputService()
+    private static IInputService InputService()
     {
         if (Application.isEditor)
             return new StandaloneInputService();

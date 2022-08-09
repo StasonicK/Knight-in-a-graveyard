@@ -11,7 +11,7 @@ public class HeroMove : MonoBehaviour
 
     private void Awake()
     {
-        _inputService = Game.InputService;
+        _inputService = AllServices.Container.Single<IInputService>();
 
         _characterController = GetComponent<CharacterController>();
         _heroAnimator = GetComponent<HeroAnimator>();
