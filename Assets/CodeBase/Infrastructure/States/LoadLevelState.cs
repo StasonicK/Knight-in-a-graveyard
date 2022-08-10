@@ -1,41 +1,49 @@
-﻿using UnityEngine;
+﻿using CodeBase.CameraLogic;
+using CodeBase.Infrastructure.Factory;
+using CodeBase.Logic;
+using UnityEngine;
 
-public class LoadLevelState : IPayloadedState<string>
+namespace CodeBase.Infrastructure.States
 {
-    private const string Initialpoint = "InitialPoint";
-
-    private readonly GameStateMachine _stateMachine;
-    private readonly SceneLoader _sceneLoader;
-    private readonly LoadingCurtain _loadingCurtain;
-    private readonly IGameFactory _gameFactory;
-
-    public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
-        IGameFactory gameFactory)
+    public class LoadLevelState : IPayloadedState<string>
     {
-        _stateMachine = stateMachine;
-        _sceneLoader = sceneLoader;
-        _loadingCurtain = loadingCurtain;
-        _gameFactory = gameFactory;
+        private const string Initialpoint = "InitialPoint";
+
+        private readonly GameStateMachine _stateMachine;
+        private readonly SceneLoader _sceneLoader;
+        private readonly LoadingCurtain _loadingCurtain;
+        private readonly IGameFactory _gameFactory;
+
+        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
+            IGameFactory gameFactory)
+        {
+            _stateMachine = stateMachine;
+            _sceneLoader = sceneLoader;
+            _loadingCurtain = loadingCurtain;
+            _gameFactory = gameFactory;
+        }
+
+        public void Enter(string sceneName)
+        {
+            _loadingCurtain.Show();
+            _gameFactory.CleanupCode();
+            _sceneLoader.Load(sceneName, OnLoaded);
+        }
+
+        public void Exit() => _loadingCurtain.Hide();
+
+        private void OnLoaded()
+        {
+            GameObject hero = _gameFactory.CreateHero(at: GameObject.FindWithTag(Initialpoint));
+
+            _gameFactory.CreateHud();
+
+            CameraFollowing(hero);
+
+            _stateMachine.Enter<GameLoopState>();
+        }
+
+        private void CameraFollowing(GameObject hero) =>
+            Camera.main.GetComponent<CameraFollowing>().Follow(hero);
     }
-
-    public void Enter(string sceneName)
-    {
-        _loadingCurtain.Show();
-        _sceneLoader.Load(sceneName, OnLoaded);
-    }
-
-    public void Exit() => _loadingCurtain.Hide();
-
-    private void OnLoaded()
-    {
-        GameObject hero = _gameFactory.CreateHero(at: GameObject.FindWithTag(Initialpoint));
-
-        _gameFactory.CreateHud();
-
-        CameraFollowing(hero);
-
-        _stateMachine.Enter<GameLoopState>();
-    }
-
-    private void CameraFollowing(GameObject hero) => Camera.main.GetComponent<CameraFollowing>().Follow(hero);
 }

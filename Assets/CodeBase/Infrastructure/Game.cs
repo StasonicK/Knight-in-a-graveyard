@@ -1,11 +1,18 @@
+using CodeBase.Infrastructure.Services;
+using CodeBase.Infrastructure.States;
+using CodeBase.Logic;
 using UnityEngine;
 
-public class Game : MonoBehaviour
+namespace CodeBase.Infrastructure
 {
-    public readonly GameStateMachine StateMachine;
-
-    public Game(ICoroutineRunner coroutineRunner, LoadingCurtain loadingCurtain)
+    public class Game : MonoBehaviour
     {
-        StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingCurtain, AllServices.Container);
+        public readonly GameStateMachine StateMachine;
+
+        public Game(ICoroutineRunner coroutineRunner, LoadingCurtain loadingCurtain)
+        {
+            StateMachine =
+                new GameStateMachine(new SceneLoader(coroutineRunner), loadingCurtain, AllServices.Container);
+        }
     }
 }

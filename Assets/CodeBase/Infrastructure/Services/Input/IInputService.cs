@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
-public interface IInputService : IService
+namespace CodeBase.Infrastructure.Services.Input
 {
-    Vector2 Axis { get; }
+    public interface IInputService : IService
+    {
+        Vector2 Axis { get; }
 
-    bool isAttackButtonUp();
+        bool isAttackButtonUp();
+    }
 }

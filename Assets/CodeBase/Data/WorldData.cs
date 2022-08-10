@@ -1,7 +1,15 @@
 ﻿using System;
 
-[Serializable]
-public class WorldData
+namespace CodeBase.Data
 {
-    public PositionOnLevel PositionOnLevel;
+    [Serializable]
+    public class WorldData
+    {
+        public PositionOnLevel PositionOnLevel;
+
+        public WorldData(string initialLevel)
+        {
+            PositionOnLevel = new PositionOnLevel(initialLevel);
+        }
+    }
 }

@@ -1,7 +1,16 @@
 ﻿using System;
 
-[Serializable]
-public class PlayerProgress
+namespace CodeBase.Data
 {
-    public WorldData WorldData;
+    [Serializable]
+    public class PlayerProgress
+    {
+        private readonly string _initialLevel;
+        public WorldData WorldData;
+
+        public PlayerProgress(string initialLevel)
+        {
+            WorldData = new WorldData(initialLevel);
+        }
+    }
 }

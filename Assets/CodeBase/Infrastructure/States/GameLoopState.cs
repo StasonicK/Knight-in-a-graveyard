@@ -1,17 +1,20 @@
-﻿public class GameLoopState : IState
+﻿namespace CodeBase.Infrastructure.States
 {
-    private readonly GameStateMachine _stateMachine;
-
-    public GameLoopState(GameStateMachine stateMachine)
+    public class GameLoopState : IState
     {
-        _stateMachine = stateMachine;
-    }
+        private readonly GameStateMachine _stateMachine;
 
-    public void Enter()
-    {
-    }
+        public GameLoopState(GameStateMachine stateMachine)
+        {
+            _stateMachine = stateMachine;
+        }
 
-    public void Exit()
-    {
+        public void Enter()
+        {
+        }
+
+        public void Exit()
+        {
+        }
     }
 }

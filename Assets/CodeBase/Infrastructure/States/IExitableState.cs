@@ -1,4 +1,7 @@
-﻿public interface IExitableState
+﻿namespace CodeBase.Infrastructure.States
 {
-    void Exit();
+    public interface IExitableState
+    {
+        void Exit();
+    }
 }

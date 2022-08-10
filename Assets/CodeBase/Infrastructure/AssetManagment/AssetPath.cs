@@ -1,5 +1,8 @@
-﻿public static class AssetPath
+﻿namespace CodeBase.Infrastructure.AssetManagment
 {
-    public const string HeroPath = "Hero/Hero";
-    public const string HudPath = "Hud/Hud";
+    public static class AssetPath
+    {
+        public const string HeroPath = "Hero/Hero";
+        public const string HudPath = "Hud/Hud";
+    }
 }

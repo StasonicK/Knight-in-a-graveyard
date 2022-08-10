@@ -1,16 +1,19 @@
 ﻿using System;
 
-[Serializable]
-public class Vector3Data
+namespace CodeBase.Data
 {
-    public float X;
-    public float Y;
-    public float Z;
-
-    public Vector3Data(float x, float y, float z)
+    [Serializable]
+    public class Vector3Data
     {
-        X = x;
-        Y = y;
-        Z = z;
+        public float X;
+        public float Y;
+        public float Z;
+
+        public Vector3Data(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
     }
 }

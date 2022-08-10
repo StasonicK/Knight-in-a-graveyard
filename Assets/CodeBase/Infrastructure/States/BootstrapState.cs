@@ -1,44 +1,54 @@
-﻿using UnityEngine;
+﻿using CodeBase.Infrastructure.AssetManagment;
+using CodeBase.Infrastructure.Factory;
+using CodeBase.Infrastructure.Services;
+using CodeBase.Infrastructure.Services.Input;
+using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Infrastructure.Services.SaveLoad;
+using UnityEngine;
 
-public class BootstrapState : IState
+namespace CodeBase.Infrastructure.States
 {
-    private const string Initial = "Initial";
-
-    private readonly GameStateMachine _stateMachine;
-    private readonly SceneLoader _sceneLoader;
-    private AllServices _services;
-
-    public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
+    public class BootstrapState : IState
     {
-        _stateMachine = stateMachine;
-        _sceneLoader = sceneLoader;
-        _services = services;
+        private const string Initial = "Initial";
 
-        RegisterServices();
-    }
+        private readonly GameStateMachine _stateMachine;
+        private readonly SceneLoader _sceneLoader;
+        private AllServices _services;
 
-    public void Enter() => _sceneLoader.Load(name: Initial, onLoaded: EnterLoadLevel);
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
+        {
+            _stateMachine = stateMachine;
+            _sceneLoader = sceneLoader;
+            _services = services;
 
-    private void EnterLoadLevel() => _stateMachine.Enter<LoadLevelState, string>("Main");
+            RegisterServices();
+        }
 
-    private void RegisterServices()
-    {
-        _services.RegisterSingle<IInputService>(InputService());
-        _services.RegisterSingle<IAssetProvider>(new AssetProvider());
-        _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-        _services.RegisterSingle<IGameFactory>(
-            new GameFactory(_services.Single<IAssetProvider>()));
-    }
+        public void Enter() => _sceneLoader.Load(name: Initial, onLoaded: EnterLoadLevel);
 
-    public void Exit()
-    {
-    }
+        private void EnterLoadLevel() => _stateMachine.Enter<LoadProgressState>();
 
-    private static IInputService InputService()
-    {
-        if (Application.isEditor)
-            return new StandaloneInputService();
-        else
-            return new MobileInputService();
+        private void RegisterServices()
+        {
+            _services.RegisterSingle<IInputService>(InputService());
+            _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+            _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService());
+            _services.RegisterSingle<IGameFactory>(
+                new GameFactory(_services.Single<IAssetProvider>()));
+        }
+
+        public void Exit()
+        {
+        }
+
+        private static IInputService InputService()
+        {
+            if (Application.isEditor)
+                return new StandaloneInputService();
+            else
+                return new MobileInputService();
+        }
     }
 }

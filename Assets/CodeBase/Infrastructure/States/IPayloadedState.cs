@@ -1,4 +1,7 @@
-﻿public interface IPayloadedState<Tpayload> : IExitableState
+﻿namespace CodeBase.Infrastructure.States
 {
-    void Enter(Tpayload payload);
+    public interface IPayloadedState<Tpayload> : IExitableState
+    {
+        void Enter(Tpayload payload);
+    }
 }
