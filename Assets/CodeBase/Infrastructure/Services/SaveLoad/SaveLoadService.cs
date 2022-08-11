@@ -22,7 +22,7 @@ namespace CodeBase.Infrastructure.Services.SaveLoad
         {
             foreach (ISavedProgress progressWriter in _gameFactory.ProgressWriters)
                 progressWriter.UpdateProgress(_progressService.Progress);
-            
+
             PlayerPrefs.SetString(ProgressKey, _progressService.Progress.ToJson());
         }
 
