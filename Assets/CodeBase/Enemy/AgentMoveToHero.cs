@@ -1,16 +1,16 @@
-﻿using CodeBase.Infrastructure.Factory;
+using CodeBase.Data;
+using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace CodeBase.Enemy
 {
-    public class AgentMoveToHero : MonoBehaviour
+    public class AgentMoveToHero : Follow
     {
         [SerializeField] private NavMeshAgent _agent;
 
         private const float MinimalDistance = 1;
-
         private Transform _heroTransform;
         private IGameFactory _gameFactory;
 
@@ -26,9 +26,18 @@ namespace CodeBase.Enemy
 
         private void Update()
         {
-            if (Initialized() && HeroNotReached())
+            if (IsInitialized() && IsHeroNotReached())
                 _agent.destination = _heroTransform.position;
         }
+
+        private void OnDestroy()
+        {
+            if (_gameFactory != null)
+                _gameFactory.HeroCreated -= HeroCreated;
+        }
+
+        private bool IsInitialized() =>
+            _heroTransform != null;
 
         private void HeroCreated() =>
             InitializeHeroTransform();
@@ -36,10 +45,7 @@ namespace CodeBase.Enemy
         private void InitializeHeroTransform() =>
             _heroTransform = _gameFactory.HeroGameObject.transform;
 
-        private bool Initialized() =>
-            _heroTransform != null;
-
-        private bool HeroNotReached() =>
-            Vector3.Distance(_agent.transform.position, _heroTransform.position) >= MinimalDistance;
+        private bool IsHeroNotReached() =>
+            _agent.transform.position.SqrMagnitudeTo(_heroTransform.position) >= MinimalDistance;
     }
 }

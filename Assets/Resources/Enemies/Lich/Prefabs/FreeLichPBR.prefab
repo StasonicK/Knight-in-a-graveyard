@@ -395,11 +395,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4665124114459090}
   - component: {fileID: 95206231959375140}
-  - component: {fileID: 1345469018716321734}
   - component: {fileID: 2780127435559047940}
-  - component: {fileID: 4730775685653385942}
-  - component: {fileID: 66000310614525417}
-  - component: {fileID: 1003525756828260795}
+  - component: {fileID: 3724619026012598648}
+  - component: {fileID: 4121512674549220093}
+  - component: {fileID: 6938863856558459177}
+  - component: {fileID: 6883338108309759917}
   m_Layer: 0
   m_Name: FreeLichPBR
   m_TagString: Untagged
@@ -445,18 +445,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1345469018716321734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500939411536426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d78996cec7c4312b607b4db1fe22b86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!195 &2780127435559047940
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -479,7 +467,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4730775685653385942
+--- !u!114 &3724619026012598648
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -488,11 +476,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1500939411536426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 206c3775ee484e83a5326bdf3a0680b9, type: 3}
+  m_Script: {fileID: 11500000, guid: fa23c91d34e14c4a8d8399742daaf8a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4121512674549220093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500939411536426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a9b5a22631645b7a45be7a7a648471e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: 2780127435559047940}
---- !u!114 &66000310614525417
+  _animator: {fileID: 3724619026012598648}
+--- !u!114 &6938863856558459177
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -501,26 +502,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1500939411536426}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad3876e5d5a4435b099486d6a40c042, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d66247efb0e41cb95ee5defc5d5b789, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TriggerObserver: {fileID: 8152955037931962}
+  _follow: {fileID: 6883338108309759917}
+  _cooldown: 3
+--- !u!114 &6883338108309759917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500939411536426}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d961c4fd4c4d968708bcb2117d5d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _agent: {fileID: 2780127435559047940}
-  _animator: {fileID: 1345469018716321734}
---- !u!114 &1003525756828260795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500939411536426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1eaf89d6ce474822be1e3761b191dd5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _triggerObserver: {fileID: 8232426260213853777}
-  _follow: {fileID: 4730775685653385942}
-  _cooldown: 2
 --- !u!1 &1537370055453520
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,7 +956,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8039467753622024288}
   - component: {fileID: 5166085706748577459}
-  - component: {fileID: 8232426260213853777}
+  - component: {fileID: 8152955037931962}
   m_Layer: 7
   m_Name: AggroZone
   m_TagString: Untagged
@@ -990,9 +990,9 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 4
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &8232426260213853777
+--- !u!114 &8152955037931962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1001,6 +1001,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6630921445966434907}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 287f392860404e11b6c1876ec6d0fe59, type: 3}
+  m_Script: {fileID: 11500000, guid: c6d3707d754c4e37bad2dd0719278971, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
