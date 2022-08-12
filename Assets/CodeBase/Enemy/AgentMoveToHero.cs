@@ -7,7 +7,7 @@ namespace CodeBase.Enemy
 {
     public class AgentMoveToHero : MonoBehaviour
     {
-        [SerializeField] private NavMeshAgent Agent;
+        [SerializeField] private NavMeshAgent _agent;
 
         private const float MinimalDistance = 1;
 
@@ -27,7 +27,7 @@ namespace CodeBase.Enemy
         private void Update()
         {
             if (Initialized() && HeroNotReached())
-                Agent.destination = _heroTransform.position;
+                _agent.destination = _heroTransform.position;
         }
 
         private void HeroCreated() =>
@@ -40,6 +40,6 @@ namespace CodeBase.Enemy
             _heroTransform != null;
 
         private bool HeroNotReached() =>
-            Vector3.Distance(Agent.transform.position, _heroTransform.position) >= MinimalDistance;
+            Vector3.Distance(_agent.transform.position, _heroTransform.position) >= MinimalDistance;
     }
 }
