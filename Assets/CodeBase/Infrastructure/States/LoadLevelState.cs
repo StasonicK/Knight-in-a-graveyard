@@ -18,10 +18,10 @@ namespace CodeBase.Infrastructure.States
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
 
-        public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
+        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
             IGameFactory gameFactory, IPersistentProgressService progressService)
         {
-            _stateMachine = stateMachine;
+            _stateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _loadingCurtain = loadingCurtain;
             _gameFactory = gameFactory;
@@ -31,11 +31,11 @@ namespace CodeBase.Infrastructure.States
         public void Enter(string sceneName)
         {
             _loadingCurtain.Show();
-            _gameFactory.CleanupCode();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
-        public void Exit() => _loadingCurtain.Hide();
+        public void Exit() =>
+            _loadingCurtain.Hide();
 
         private void OnLoaded()
         {
@@ -51,31 +51,22 @@ namespace CodeBase.Infrastructure.States
                 progressReader.LoadProgress(_progressService.Progress);
         }
 
-        private void EnsureCurtain()
-        {
-        }
-
         private void InitGameWorld()
         {
             GameObject hero = _gameFactory.CreateHero(GameObject.FindWithTag(InitialPointTag));
-
             InitHud(hero);
-            CameraFollowing(hero);
-        }
 
-        private GameObject InitHero()
-        {
-            return _gameFactory.CreateHero(GameObject
-                .FindWithTag(InitialPointTag));
+            CameraFollow(hero);
         }
 
         private void InitHud(GameObject hero)
         {
             GameObject hud = _gameFactory.CreateHud();
+
             hud.GetComponentInChildren<ActorUI>().Construct(hero.GetComponent<HeroHealth>());
         }
 
-        private void CameraFollowing(GameObject hero) =>
+        private void CameraFollow(GameObject hero) =>
             Camera.main.GetComponent<CameraFollowing>().Follow(hero);
     }
 }
