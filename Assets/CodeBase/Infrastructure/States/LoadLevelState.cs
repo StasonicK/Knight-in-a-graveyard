@@ -1,14 +1,16 @@
 ﻿using CodeBase.CameraLogic;
+using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Logic;
+using CodeBase.UI;
 using UnityEngine;
 
 namespace CodeBase.Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
-        private const string Initialpoint = "InitialPoint";
+        private const string InitialPointTag = "InitialPoint";
 
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -49,13 +51,28 @@ namespace CodeBase.Infrastructure.States
                 progressReader.LoadProgress(_progressService.Progress);
         }
 
+        private void EnsureCurtain()
+        {
+        }
+
         private void InitGameWorld()
         {
-            GameObject hero = _gameFactory.CreateHero(at: GameObject.FindWithTag(Initialpoint));
+            GameObject hero = _gameFactory.CreateHero(GameObject.FindWithTag(InitialPointTag));
 
-            _gameFactory.CreateHud();
-
+            InitHud(hero);
             CameraFollowing(hero);
+        }
+
+        private GameObject InitHero()
+        {
+            return _gameFactory.CreateHero(GameObject
+                .FindWithTag(InitialPointTag));
+        }
+
+        private void InitHud(GameObject hero)
+        {
+            GameObject hud = _gameFactory.CreateHud();
+            hud.GetComponentInChildren<ActorUI>().Construct(hero.GetComponent<HeroHealth>());
         }
 
         private void CameraFollowing(GameObject hero) =>
