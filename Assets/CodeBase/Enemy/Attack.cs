@@ -10,7 +10,7 @@ namespace CodeBase.Enemy
     public class Attack : MonoBehaviour
     {
         [SerializeField] private EnemyAnimator _animator;
-        [SerializeField] private float _attackCooldown = 3f;
+        [SerializeField] private float _attackCooldown = 1f;
         [SerializeField] private float _cleavage = 0.5f;
         [SerializeField] private float _effectiveDistance = 0.5f;
         [SerializeField] private float _damage = 10f;

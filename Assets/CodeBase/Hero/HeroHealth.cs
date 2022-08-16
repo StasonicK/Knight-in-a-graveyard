@@ -1,41 +1,45 @@
 ﻿using System;
 using CodeBase.Data;
 using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Logic;
 using UnityEngine;
 
 namespace CodeBase.Hero
 {
     [RequireComponent(typeof(HeroAnimator))]
-    public class HeroHealth : MonoBehaviour, ISavedProgress
+    public class HeroHealth : MonoBehaviour, ISavedProgress, IHealth
     {
         [SerializeField] private HeroAnimator _animator;
 
         private State _state;
 
+        public event Action HealthChanged;
+
         public float Current
         {
             get => _state.CurrentHP;
-            set => _state.CurrentHP = value;
-        }
-
-        public float Max
-        {
-            get => _state.MaxHP;
             set
             {
-                if (_state.CurrentHP != value)
+                if (value != _state.CurrentHP)
                 {
-                    _state.MaxHP = value;
+                    _state.CurrentHP = value;
+
                     HealthChanged?.Invoke();
                 }
             }
         }
 
-        public Action HealthChanged;
+        public float Max
+        {
+            get => _state.MaxHP;
+            set => _state.MaxHP = value;
+        }
+
 
         public void LoadProgress(PlayerProgress progress)
         {
             _state = progress.HeroState;
+            HealthChanged?.Invoke();
         }
 
         public void UpdateProgress(PlayerProgress progress)
