@@ -59,7 +59,7 @@ namespace CodeBase.Hero
         private void Warp(Vector3Data to)
         {
             _characterController.enabled = false;
-            transform.position = to.AsUnityVector().AddY(_characterController.height);
+            transform.position = to.AsUnityVector().AddY(_characterController.height * 5);
             _characterController.enabled = true;
         }
     }
