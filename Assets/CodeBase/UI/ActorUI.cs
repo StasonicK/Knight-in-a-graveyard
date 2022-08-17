@@ -7,9 +7,9 @@ namespace CodeBase.UI
     {
         [SerializeField] private HpBar _hpBar;
 
-        private IHealth _heroHealth;
+        private IHealth _health;
 
-        private void Start()
+        private void Awake()
         {
             IHealth health = GetComponent<IHealth>();
 
@@ -19,19 +19,19 @@ namespace CodeBase.UI
 
         private void OnDestroy()
         {
-            _heroHealth.HealthChanged -= UpdateHpBar;
+            _health.HealthChanged -= UpdateHpBar;
         }
 
         public void Construct(IHealth health)
         {
-            _heroHealth = health;
+            _health = health;
 
-            _heroHealth.HealthChanged += UpdateHpBar;
+            _health.HealthChanged += UpdateHpBar;
         }
 
         private void UpdateHpBar()
         {
-            _hpBar.SetValue(_heroHealth.Current, _heroHealth.Max);
+            _hpBar.SetValue(_health.Current, _health.Max);
         }
     }
 }

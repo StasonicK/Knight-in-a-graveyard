@@ -23,12 +23,12 @@ namespace CodeBase.Hero
         private void Awake()
         {
             _input = AllServices.Container.Single<IInputService>();
-            _layerMask = 1 << LayerMask.NameToLayer("");
+            _layerMask = 1 << LayerMask.NameToLayer("Hittable");
         }
 
         private void Update()
         {
-            if (_input.isAttackButtonUp() && _animator.IsAttacking)
+            if (_input.isAttackButtonUp() && !_animator.IsAttacking)
                 _animator.PlayAttack();
         }
 
