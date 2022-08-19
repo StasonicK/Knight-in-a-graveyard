@@ -1472,7 +1472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _health: {fileID: -4265602867389065218}
   _move: {fileID: 8437568026702614655}
-  _attack: {fileID: 0}
+  _attack: {fileID: 4118660425317267939}
   _animator: {fileID: 6606407592475462364}
   _deathVFX: {fileID: 100006, guid: 5fe605bc5ca049f4e9752e6c7faa2e59, type: 3}
 --- !u!114 &4118660425317267939

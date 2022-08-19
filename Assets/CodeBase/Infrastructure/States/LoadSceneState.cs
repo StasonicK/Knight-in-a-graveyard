@@ -1,8 +1,8 @@
 ﻿using CodeBase.CameraLogic;
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Logic;
+using CodeBase.Services.PersistentProgress;
 using CodeBase.UI;
 using UnityEngine;
 
@@ -67,7 +67,6 @@ namespace CodeBase.Infrastructure.States
             foreach (GameObject spawnerObject in GameObject.FindGameObjectsWithTag(EnemySpawnerTag))
             {
                 var spawner = spawnerObject.GetComponent<EnemySpawner>();
-                _gameFactory.Register(spawner);
             }
         }
 

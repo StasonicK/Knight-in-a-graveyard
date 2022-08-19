@@ -1,8 +1,8 @@
 ﻿using CodeBase.Data;
 using CodeBase.Enemy;
 using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
-using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Services;
+using CodeBase.Services.PersistentProgress;
 using CodeBase.StaticData;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ namespace CodeBase.Logic
 
         private void Spawn()
         {
-            GameObject monster = _factory.CreateMonster(_monsterTypeId, transform);
+            GameObject monster = _factory.CreateMonster(_monsterTypeId, transform, _id);
             _enemyDeath = monster.GetComponent<EnemyDeath>();
             _enemyDeath.Happened += Slay;
         }
