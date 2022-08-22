@@ -1,6 +1,4 @@
-﻿using CodeBase.Data;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Services.PersistentProgress;
+﻿using CodeBase.Infrastructure.Factory;
 using CodeBase.Services.Randomizer;
 using UnityEngine;
 

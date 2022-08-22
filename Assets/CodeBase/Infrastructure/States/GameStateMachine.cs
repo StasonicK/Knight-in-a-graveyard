@@ -20,7 +20,7 @@ namespace CodeBase.Infrastructure.States
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadLevelState)] =
                     new LoadLevelState(this, sceneLoader, loadingCurtain, services.Single<IGameFactory>(),
-                        services.Single<IPersistentProgressService>()),
+                        services.Single<IPersistentProgressService>(), services.Single<IStaticDataService>()),
                 [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(),
                     services.Single<ISaveLoadService>()),
                 [typeof(GameLoopState)] = new GameLoopState(this),
