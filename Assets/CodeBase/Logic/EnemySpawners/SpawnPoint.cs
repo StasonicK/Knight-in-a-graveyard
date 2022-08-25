@@ -25,10 +25,12 @@ namespace CodeBase.Logic.EnemySpawners
                 Spawn();
         }
 
-        private void Spawn() =>
-            _factory.CreateMonster(MonsterTypeId, transform, Id)
-                .GetComponent<EnemyDeath>()
-                .Happened += Slain;
+        private void Spawn()
+        {
+            GameObject monster = _factory.CreateMonster(MonsterTypeId, transform);
+            _enemyDeath = monster.GetComponent<EnemyDeath>();
+            _enemyDeath.Happened += Slain;
+        }
 
         private void Slain() =>
             _slain = true;

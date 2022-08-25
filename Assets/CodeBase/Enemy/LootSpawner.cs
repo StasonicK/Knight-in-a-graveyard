@@ -12,13 +12,17 @@ namespace CodeBase.Enemy
         private IGameFactory _factory;
         private int _lootMin;
         private int _lootMax;
+
         private IRandomService _random;
-        private string _id;
+
+        // private string _id;
         private Loot _loot;
 
-        public void Construct(IGameFactory factory, IRandomService random, string id)
+        public void Construct(IGameFactory factory, IRandomService random
+            // , string id
+        )
         {
-            _id = id;
+            // _id = id;
             _factory = factory;
             _random = random;
         }
@@ -33,16 +37,22 @@ namespace CodeBase.Enemy
             LootPiece lootPiece = _factory.CreateLoot();
             lootPiece.transform.position = transform.position;
 
-            _loot = GenerateLoot(_id);
+            _loot = GenerateLoot(
+                // _id
+            );
 
             lootPiece.Initialize(_loot);
 
             _enemyDeath.Happened -= SpawnLoot;
         }
 
-        private Loot GenerateLoot(string id)
+        private Loot GenerateLoot(
+            // string id
+        )
         {
-            return new Loot(_random.Next(_lootMin, _lootMax), id);
+            return new Loot(_random.Next(_lootMin, _lootMax)
+                // , id
+            );
         }
 
         public void SetLoot(int min, int max)

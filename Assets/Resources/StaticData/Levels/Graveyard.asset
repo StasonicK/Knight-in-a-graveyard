@@ -13,4 +13,19 @@ MonoBehaviour:
   m_Name: Graveyard
   m_EditorClassIdentifier: 
   LevelKey: Main
-  EnemySpawners: []
+  EnemySpawners:
+  - Id: Main_a3f41d89-1383-4d68-81c0-5edd8cfa63a5
+    MonsterTypeId: 0
+    Position: {x: -7.25, y: 0, z: -6}
+  - Id: Main_c911dd9a-c0a6-4f79-bce6-5007458c1b2e
+    MonsterTypeId: 10
+    Position: {x: -4.91, y: 0, z: 3.26}
+  - Id: Main_37c7eb48-1c7c-4400-b28f-0aa9de620713
+    MonsterTypeId: 0
+    Position: {x: 1.77, y: 0, z: 5.5}
+  - Id: Main_af19a5a1-68cf-4c42-9567-3e72743e57ed
+    MonsterTypeId: 10
+    Position: {x: 11.7, y: 0, z: -4.47}
+  - Id: Main_7e4c1284-991e-4c76-9c40-60630ba2c9c1
+    MonsterTypeId: 0
+    Position: {x: -9.11, y: 0, z: 14.44}
