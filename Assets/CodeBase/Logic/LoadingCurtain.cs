@@ -7,6 +7,10 @@ namespace CodeBase.Logic
     {
         [SerializeField] private CanvasGroup _curtain;
 
+        private const int MinimumAlpha = 0;
+        private const int MaximumAlpha = 1;
+        private const float StepAlpha = 0.03f;
+
         private void Awake()
         {
             DontDestroyOnLoad(this);
@@ -15,7 +19,7 @@ namespace CodeBase.Logic
         public void Show()
         {
             gameObject.SetActive(true);
-            _curtain.alpha = 1;
+            _curtain.alpha = MaximumAlpha;
         }
 
         public void Hide() =>
@@ -23,10 +27,10 @@ namespace CodeBase.Logic
 
         private IEnumerator FadeOut()
         {
-            while (_curtain.alpha > 0)
+            while (_curtain.alpha > MinimumAlpha)
             {
-                _curtain.alpha -= 0.03f;
-                yield return new WaitForSeconds(0.03f);
+                _curtain.alpha -= StepAlpha;
+                yield return new WaitForSeconds(StepAlpha);
             }
 
             gameObject.SetActive(false);

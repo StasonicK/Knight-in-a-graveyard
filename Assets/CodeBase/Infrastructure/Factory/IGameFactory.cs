@@ -14,9 +14,7 @@ namespace CodeBase.Infrastructure.Factory
 
         GameObject CreateHero(GameObject at);
 
-        GameObject CreateMonster(MonsterTypeId typeId, Transform parent
-            // , string id
-        );
+        GameObject CreateMonster(MonsterTypeId typeId, Transform parent);
 
         GameObject CreateHud();
         LootPiece CreateLoot();

@@ -7,11 +7,12 @@ namespace CodeBase.Enemy
     [RequireComponent(typeof(EnemyAnimator))]
     public class Attack : MonoBehaviour
     {
+        private const float YLevitation = 0.5f;
         [SerializeField] private EnemyAnimator _animator;
 
         public float AttackCooldown = 1f;
-        public float Cleavage = 0.5f;
-        public float EffectiveDistance = 0.5f;
+        public float Cleavage = YLevitation;
+        public float EffectiveDistance = YLevitation;
         public float Damage = 10f;
 
         private Transform _heroTransform;
@@ -76,7 +77,7 @@ namespace CodeBase.Enemy
         }
 
         private Vector3 StartPoint() =>
-            new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) +
+            new Vector3(transform.position.x, transform.position.y + YLevitation, transform.position.z) +
             transform.forward * EffectiveDistance;
 
         private void OnAttackEnded()

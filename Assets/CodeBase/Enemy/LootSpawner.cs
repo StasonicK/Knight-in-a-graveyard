@@ -15,14 +15,10 @@ namespace CodeBase.Enemy
 
         private IRandomService _random;
 
-        // private string _id;
         private Loot _loot;
 
-        public void Construct(IGameFactory factory, IRandomService random
-            // , string id
-        )
+        public void Construct(IGameFactory factory, IRandomService random)
         {
-            // _id = id;
             _factory = factory;
             _random = random;
         }
@@ -37,22 +33,16 @@ namespace CodeBase.Enemy
             LootPiece lootPiece = _factory.CreateLoot();
             lootPiece.transform.position = transform.position;
 
-            _loot = GenerateLoot(
-                // _id
-            );
+            _loot = GenerateLoot();
 
             lootPiece.Initialize(_loot);
 
             _enemyDeath.Happened -= SpawnLoot;
         }
 
-        private Loot GenerateLoot(
-            // string id
-        )
+        private Loot GenerateLoot()
         {
-            return new Loot(_random.Next(_lootMin, _lootMax)
-                // , id
-            );
+            return new Loot(_random.Next(_lootMin, _lootMax));
         }
 
         public void SetLoot(int min, int max)
@@ -60,32 +50,5 @@ namespace CodeBase.Enemy
             _lootMin = min;
             _lootMax = max;
         }
-
-        // public void LoadProgress(PlayerProgress progress)
-        // {
-        //     for (int i = 0; i < progress.KillData.DropedLoots.Count; i++)
-        //     {
-        //         if (progress.KillData.DropedLoots[i].Loot.Id == _id)
-        //         {
-        //             RestoreLoot(progress, i);
-        //             progress.KillData.DropedLoots.RemoveAt(i);
-        //             return;
-        //         }
-        //     }
-        // }
-        //
-        // private void RestoreLoot(PlayerProgress progress, int i)
-        // {
-        //     DropedLoot dropedLoot = progress.KillData.DropedLoots[i];
-        //     _loot = dropedLoot.Loot;
-        //     LootPiece lootPiece = _factory.CreateLoot();
-        //     lootPiece.transform.position = dropedLoot.PositionOnLevel.AsUnityVector();
-        //     lootPiece.Initialize(_loot);
-        // }
-        //
-        // public void UpdateProgress(PlayerProgress progress)
-        // {
-        //     progress.KillData.DropedLoots.Add(new DropedLoot(transform.position.AsVectorData(), _loot));
-        // }
     }
 }

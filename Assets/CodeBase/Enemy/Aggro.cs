@@ -50,7 +50,6 @@ namespace CodeBase.Enemy
             if (_aggroCoroutine == null) return;
 
             StopCoroutine(_aggroCoroutine);
-            _aggroCoroutine = null;
         }
 
         private IEnumerator SwitchFollowOffAfterCooldown()

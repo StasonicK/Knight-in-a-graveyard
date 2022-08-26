@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using CodeBase.Enemy;
-using CodeBase.Infrastructure.AssetManagment;
+using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Logic;
 using CodeBase.Logic.EnemySpawners;
 using CodeBase.Services.PersistentProgress;

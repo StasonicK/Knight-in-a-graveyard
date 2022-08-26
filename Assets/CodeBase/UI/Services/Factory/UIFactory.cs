@@ -1,4 +1,4 @@
-﻿using CodeBase.Infrastructure.AssetManagment;
+﻿using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Services.PersistentProgress;
 using CodeBase.Services.StaticData;
 using CodeBase.StaticData.Windows;
