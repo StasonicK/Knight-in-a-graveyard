@@ -17,6 +17,11 @@ namespace CodeBase.Services.Ads
 
         public event Action RewardedVideoReady;
 
+        public bool IsRewardedVideoReady =>
+            Advertisement.isInitialized;
+
+        public int Reward => 13;
+
         public void Initialize()
         {
             switch (Application.platform)
@@ -35,18 +40,13 @@ namespace CodeBase.Services.Ads
                     break;
             }
 
-            Advertisement.Initialize(_gameId);
+            Advertisement.Initialize(_gameId, true, this);
         }
 
         public void ShowRewardedVideo(Action onVideoFinished)
         {
-            Advertisement.Show(RewardedVideoPlacementId);
+            Advertisement.Show(RewardedVideoPlacementId, this);
             _onVideoFinished = onVideoFinished;
-        }
-
-        public bool IsRewardedVideoReady()
-        {
-            return true;
         }
 
         public void OnInitializationComplete()
