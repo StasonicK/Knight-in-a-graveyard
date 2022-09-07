@@ -36,9 +36,9 @@ namespace CodeBase.Infrastructure.Factory
             _windowService = windowService;
         }
 
-        public GameObject CreateHero(GameObject at)
+        public GameObject CreateHero(Vector3 at)
         {
-            _heroGameObject = InstantiateRegistered(AssetPath.HeroPath, at.transform.position);
+            _heroGameObject = InstantiateRegistered(AssetPath.HeroPath, at);
             return _heroGameObject;
         }
 
@@ -53,9 +53,7 @@ namespace CodeBase.Infrastructure.Factory
             return hud;
         }
 
-        public GameObject CreateMonster(MonsterTypeId typeId, Transform parent
-            // , string id
-        )
+        public GameObject CreateMonster(MonsterTypeId typeId, Transform parent)
         {
             MonsterStaticData monsterData = _staticData.ForMonster(typeId);
             GameObject monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
@@ -69,9 +67,7 @@ namespace CodeBase.Infrastructure.Factory
 
             LootSpawner lootSpawner = monster.GetComponentInChildren<LootSpawner>();
             lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
-            lootSpawner.Construct(this, _randomService
-                // , id
-            );
+            lootSpawner.Construct(this, _randomService);
 
             Attack attack = monster.GetComponent<Attack>();
             attack.Construct(_heroGameObject.transform);

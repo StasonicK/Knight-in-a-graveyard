@@ -37,12 +37,12 @@ namespace CodeBase.Infrastructure.States
         private void RegisterServices()
         {
             RegisterStaticData();
-
             RegisterAdsService();
 
-            _services.RegisterSingle(InputService());
-            _services.RegisterSingle<IRandomService>(new RandomService());
+            _services.RegisterSingle<IGameStateMachine>(_stateMachine);
+            _services.RegisterSingle<IInputService>(InputService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+            _services.RegisterSingle<IRandomService>(new RandomService());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
 
             _services.RegisterSingle<IUIFactory>(

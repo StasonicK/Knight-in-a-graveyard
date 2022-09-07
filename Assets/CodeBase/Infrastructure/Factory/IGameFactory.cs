@@ -12,7 +12,7 @@ namespace CodeBase.Infrastructure.Factory
         List<ISavedProgressReader> ProgressReaders { get; }
         List<ISavedProgress> ProgressWriters { get; }
 
-        GameObject CreateHero(GameObject at);
+        GameObject CreateHero(Vector3 at);
 
         GameObject CreateMonster(MonsterTypeId typeId, Transform parent);
 
