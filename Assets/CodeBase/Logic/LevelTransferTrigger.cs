@@ -1,5 +1,4 @@
-﻿using System;
-using CodeBase.Infrastructure.States;
+﻿using CodeBase.Infrastructure.States;
 using CodeBase.Services;
 using UnityEngine;
 
