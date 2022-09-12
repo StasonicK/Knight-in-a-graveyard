@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace CodeBase.StaticData
 {
@@ -9,11 +10,9 @@ namespace CodeBase.StaticData
 
         [Range(1, 100)] public int Hp;
 
-        [Range(1, 30)] public float Damage;
+        [Range(1f, 30f)] public float Damage;
 
-        public int MinLoot;
-
-        public int MaxLoot;
+        [Range(0, 10)] public float MoveSpeed;
 
         [Range(0.5f, 1)] public float EffectiveDistance;
 
@@ -21,8 +20,10 @@ namespace CodeBase.StaticData
 
         [Range(0.5f, 1)] public float AttackCooldown;
 
-        [Range(1, 10)] public float MoveSpeed;
+        public int MinLoot;
 
-        public GameObject Prefab;
+        public int MaxLoot;
+
+        public AssetReferenceGameObject PrefabReference;
     }
 }

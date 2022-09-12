@@ -11,7 +11,7 @@ namespace CodeBase.Enemy
         [SerializeField] private EnemyAnimator _animator;
         [SerializeField] private GameObject _deathVFX;
 
-        public event Action Happened;
+        public event Action Died;
 
         private void Start() =>
             _health.HealthChanged += HealthChanged;
@@ -31,7 +31,7 @@ namespace CodeBase.Enemy
             _animator.PlayDeath();
             SpawnDeathVfx();
             StartCoroutine(DestroyTimer());
-            Happened?.Invoke();
+            Died?.Invoke();
         }
 
         private void SpawnDeathVfx() =>

@@ -21,19 +21,26 @@ namespace CodeBase.Logic.EnemySpawners
 
         public void LoadProgress(PlayerProgress progress)
         {
-            if (!progress.KillData.ClearedSpawners.Contains(Id))
+            if (progress.KillData.ClearedSpawners.Contains(Id))
+                _slain = true;
+            else
                 Spawn();
         }
 
-        private void Spawn()
+        private async void Spawn()
         {
-            GameObject monster = _factory.CreateMonster(MonsterTypeId, transform);
+            GameObject monster = await _factory.CreateMonster(MonsterTypeId, transform);
             _enemyDeath = monster.GetComponent<EnemyDeath>();
-            _enemyDeath.Happened += Slain;
+            _enemyDeath.Died += Slain;
         }
 
-        private void Slain() =>
+        private void Slain()
+        {
+            if (_enemyDeath != null)
+                _enemyDeath.Died -= Slain;
+
             _slain = true;
+        }
 
         public void UpdateProgress(PlayerProgress progress)
         {

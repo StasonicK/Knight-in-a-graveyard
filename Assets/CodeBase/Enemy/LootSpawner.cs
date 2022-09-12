@@ -25,7 +25,7 @@ namespace CodeBase.Enemy
 
         private void Start()
         {
-            _enemyDeath.Happened += SpawnLoot;
+            _enemyDeath.Died += SpawnLoot;
         }
 
         private void SpawnLoot()
@@ -37,7 +37,7 @@ namespace CodeBase.Enemy
 
             lootPiece.Initialize(_loot);
 
-            _enemyDeath.Happened -= SpawnLoot;
+            _enemyDeath.Died -= SpawnLoot;
         }
 
         private Loot GenerateLoot()

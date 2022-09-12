@@ -16,7 +16,19 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 189c41c020d43f04588a8e196d20b745
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: b4f94cebb7f61c849963d2a3c3e3e645
+    m_Address: Golem
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 6a81d0cc65b964c4eb8a3405e7d81316
+    m_Address: Lich
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: e0d1a7ba339a1194ab1e7cd4366e1b1c
+    m_Address: FatDragon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cafa78d3b00ebfb49a42e6ef727eeff0, type: 2}
   m_SchemaSet:
