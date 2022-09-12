@@ -11,7 +11,9 @@ using CodeBase.StaticData;
 using CodeBase.UI.Elements;
 using CodeBase.UI.Services.Windows;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.AI;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CodeBase.Infrastructure.Factory
 {
@@ -58,9 +60,13 @@ namespace CodeBase.Infrastructure.Factory
         {
             MonsterStaticData monsterData = _staticData.ForMonster(typeId);
 
-            GameObject prefab = await monsterData.PrefabReference
-                .LoadAssetAsync()
+            AsyncOperationHandle<GameObject> handle =
+                Addressables.LoadAssetAsync<GameObject>(monsterData.PrefabReference);
+
+            GameObject prefab = await handle
                 .Task;
+
+            Addressables.Release(handle);
 
             GameObject monster = Object.Instantiate(prefab, parent.position, Quaternion.identity, parent);
 
@@ -70,6 +76,8 @@ namespace CodeBase.Infrastructure.Factory
 
             monster.GetComponent<ActorUI>().Construct(health);
             monster.GetComponent<NavMeshAgent>().speed = monsterData.MoveSpeed;
+            monster.GetComponent<AgentMoveToHero>()?.Construct(_heroGameObject.transform);
+            monster.GetComponent<RotateToHero>()?.Construct(_heroGameObject.transform);
 
             LootSpawner lootSpawner = monster.GetComponentInChildren<LootSpawner>();
             lootSpawner.SetLoot(monsterData.MinLoot, monsterData.MaxLoot);
@@ -80,9 +88,6 @@ namespace CodeBase.Infrastructure.Factory
             attack.Damage = monsterData.Damage;
             attack.Cleavage = monsterData.Cleavage;
             attack.EffectiveDistance = monsterData.EffectiveDistance;
-
-            monster.GetComponent<AgentMoveToHero>()?.Construct(_heroGameObject.transform);
-            monster.GetComponent<RotateToHero>()?.Construct(_heroGameObject.transform);
 
             return monster;
         }
