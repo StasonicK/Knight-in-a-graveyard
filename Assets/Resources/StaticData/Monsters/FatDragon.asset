@@ -15,10 +15,14 @@ MonoBehaviour:
   MonsterTypeId: 20
   Hp: 100
   Damage: 30
-  MinLoot: 666
-  MaxLoot: 666
+  MoveSpeed: 5
   EffectiveDistance: 1
   Cleavage: 0.5
   AttackCooldown: 1
-  MoveSpeed: 5
-  Prefab: {fileID: 8059188575598751678, guid: e0d1a7ba339a1194ab1e7cd4366e1b1c, type: 3}
+  MinLoot: 666
+  MaxLoot: 666
+  PrefabReference:
+    m_AssetGUID: e0d1a7ba339a1194ab1e7cd4366e1b1c
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0

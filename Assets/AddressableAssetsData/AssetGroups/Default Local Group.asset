@@ -29,6 +29,26 @@ MonoBehaviour:
     m_Address: FatDragon
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: d587ba2fd38b20449986c007d26d2b8a
+    m_Address: Loot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 4ccf5cedaf8f7a24eadd2ea28536a04b
+    m_Address: SpawnPoint
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: a92d8c15e1824e543a1af59c16fafb12
+    m_Address: Hero
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1392ff1371890a347a15d719f1f447b7
+    m_Address: Hud
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 808d9c1c7198e524087124da230620d0
+    m_Address: UIRoot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: cafa78d3b00ebfb49a42e6ef727eeff0, type: 2}
   m_SchemaSet:

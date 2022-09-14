@@ -13,13 +13,16 @@ namespace CodeBase.Infrastructure.Factory
         List<ISavedProgressReader> ProgressReaders { get; }
         List<ISavedProgress> ProgressWriters { get; }
 
-        GameObject CreateHero(Vector3 at);
+        Task WarmUp();
+        Task<GameObject> CreateHero(Vector3 at);
 
         Task<GameObject> CreateMonster(MonsterTypeId typeId, Transform parent);
 
-        GameObject CreateHud();
-        LootPiece CreateLoot();
-        void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeId spawnerDataMonsterTypeId);
-        void CleanupCode();
+        Task<GameObject> CreateHud();
+        Task<LootPiece> CreateLoot();
+        Task CreateSpawner(string spawnerId, Vector3 at, MonsterTypeId spawnerDataMonsterTypeId);
+        void CleanUp();
+        void Register(LootPiece lootPiece);
+        void Unregister(LootPiece lootPiece);
     }
 }

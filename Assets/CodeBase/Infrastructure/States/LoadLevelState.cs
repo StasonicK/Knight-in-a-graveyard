@@ -1,4 +1,5 @@
-﻿using CodeBase.CameraLogic;
+﻿using System.Threading.Tasks;
+using CodeBase.CameraLogic;
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Logic;
@@ -40,23 +41,25 @@ namespace CodeBase.Infrastructure.States
         public void Enter(string sceneName)
         {
             _loadingCurtain.Show();
+            _gameFactory.CleanUp();
+            _gameFactory.WarmUp();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
         public void Exit() =>
             _loadingCurtain.Hide();
 
-        private void OnLoaded()
+        private async void OnLoaded()
         {
-            InitUIRoot();
-            InitGameWorld();
+            await InitUIRoot();
+            await InitGameWorld();
             InformProgressReaders();
 
             _stateMachine.Enter<GameLoopState>();
         }
 
-        private void InitUIRoot() =>
-            _uiFactory.CreateUIRoot();
+        private async Task InitUIRoot() =>
+            await _uiFactory.CreateUIRoot();
 
         private void InformProgressReaders()
         {
@@ -64,28 +67,43 @@ namespace CodeBase.Infrastructure.States
                 progressReader.LoadProgress(_progressService.Progress);
         }
 
-        private void InitGameWorld()
+        private async Task InitGameWorld()
         {
             var levelData = LevelStaticData();
 
-            InitSpawners(levelData);
-            GameObject hero = InitHero(levelData);
-            InitHud(hero);
+            await InitSpawners(levelData);
+            // await InitDroppedLoot();
+            GameObject hero = await InitHero(levelData);
+            await InitHud(hero);
             CameraFollow(hero);
         }
 
-        private GameObject InitHero(LevelStaticData levelStaticData) =>
-            _gameFactory.CreateHero(levelStaticData.InitialHeroPosition);
+        // private async Task InitDroppedLoot()
+        // {
+        //     DroppedLoot droppedLoot = _progressService.Progress.WorldData.DroppedLoot;
+        //
+        //     foreach (DroppedItem drop in droppedLoot.Items)
+        //     {
+        //         LootPiece lootPiece = await _gameFactory.CreateLoot();
+        //         lootPiece.transform.position = drop.Position.AsUni;
+        //         lootPiece.Initialize(drop.Loot);
+        //     }
+        //
+        //     droppedLoot.Clear();
+        // }
 
-        private void InitSpawners(LevelStaticData levelData)
+        private async Task<GameObject> InitHero(LevelStaticData levelStaticData) =>
+            await _gameFactory.CreateHero(levelStaticData.InitialHeroPosition);
+
+        private async Task InitSpawners(LevelStaticData levelData)
         {
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
-                _gameFactory.CreateSpawner(spawnerData.Position, spawnerData.Id, spawnerData.MonsterTypeId);
+                await _gameFactory.CreateSpawner(spawnerData.Id, spawnerData.Position, spawnerData.MonsterTypeId);
         }
 
-        private void InitHud(GameObject hero)
+        private async Task InitHud(GameObject hero)
         {
-            GameObject hud = _gameFactory.CreateHud();
+            GameObject hud = await _gameFactory.CreateHud();
             hud.GetComponentInChildren<ActorUI>().Construct(hero.GetComponent<HeroHealth>());
         }
 

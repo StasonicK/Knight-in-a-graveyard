@@ -28,16 +28,16 @@ namespace CodeBase.Enemy
             _enemyDeath.Died += SpawnLoot;
         }
 
-        private void SpawnLoot()
+        private async void SpawnLoot()
         {
-            LootPiece lootPiece = _factory.CreateLoot();
+            LootPiece lootPiece = await _factory.CreateLoot();
             lootPiece.transform.position = transform.position;
 
             _loot = GenerateLoot();
 
             lootPiece.Initialize(_loot);
-
-            _enemyDeath.Died -= SpawnLoot;
+            _factory.Register(lootPiece);
+            lootPiece.Picked += () => _factory.Unregister(lootPiece);
         }
 
         private Loot GenerateLoot()

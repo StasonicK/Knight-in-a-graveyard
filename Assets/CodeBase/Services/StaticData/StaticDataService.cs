@@ -17,7 +17,7 @@ namespace CodeBase.Services.StaticData
         private Dictionary<string, LevelStaticData> _levels;
         private Dictionary<WindowId, WindowConfig> _windowConfigs;
 
-        public void LoadMonsters()
+        public void Load()
         {
             _monsters = Resources
                 .LoadAll<MonsterStaticData>(StaticDataMonstersPath)

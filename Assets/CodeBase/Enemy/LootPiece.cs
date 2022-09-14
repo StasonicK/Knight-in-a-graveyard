@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using CodeBase.Data;
 using TMPro;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace CodeBase.Enemy
         private Loot _loot;
         private bool _picked;
         private WorldData _worldData;
+
+        public event Action Picked;
 
         public void Construct(WorldData worldData) =>
             _worldData = worldData;

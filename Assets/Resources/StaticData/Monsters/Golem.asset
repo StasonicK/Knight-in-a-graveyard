@@ -13,10 +13,16 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   MonsterTypeId: 10
-  Hp: 8
-  Damage: 15
+  Hp: 10
+  Damage: 20
+  MoveSpeed: 4
   EffectiveDistance: 0.5
   Cleavage: 0.5
   AttackCooldown: 1
-  MoveSpeed: 4
-  Prefab: {fileID: 8059188575598751678, guid: b4f94cebb7f61c849963d2a3c3e3e645, type: 3}
+  MinLoot: 5
+  MaxLoot: 15
+  PrefabReference:
+    m_AssetGUID: b4f94cebb7f61c849963d2a3c3e3e645
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_EditorAssetChanged: 0
