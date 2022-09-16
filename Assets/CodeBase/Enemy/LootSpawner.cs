@@ -5,7 +5,6 @@ using UnityEngine;
 namespace CodeBase.Enemy
 {
     public class LootSpawner : MonoBehaviour
-        // , ISavedProgress
     {
         [SerializeField] private EnemyDeath _enemyDeath;
 

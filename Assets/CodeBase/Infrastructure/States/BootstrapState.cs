@@ -52,7 +52,8 @@ namespace CodeBase.Infrastructure.States
                 new UIFactory(_services.Single<IAssets>(),
                     _services.Single<IStaticDataService>(),
                     _services.Single<IPersistentProgressService>(),
-                    _services.Single<IAdsService>())
+                    _services.Single<IAdsService>(),
+                    _services.Single<IIAPService>())
             );
             _services.RegisterSingle<IWindowService>(new WindowService(_services.Single<IUIFactory>()));
 
