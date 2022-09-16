@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Services.IAP;
 using CodeBase.Services.PersistentProgress;
@@ -16,7 +17,8 @@ namespace CodeBase.UI.Windows.Shop
         private IIAPService _iapService;
         private IPersistentProgressService _progressService;
         private IAssets _assets;
-        private List<GameObject> _shopItems;
+
+        private readonly List<GameObject> _shopItems = new List<GameObject>();
 
         public void Construct(IIAPService iapService, IPersistentProgressService progressService, IAssets assets)
         {
@@ -42,31 +44,41 @@ namespace CodeBase.UI.Windows.Shop
 
         private async void RefreshAvailableItems()
         {
-            UpdateUnavailableObjects();
+            UpdateShopUnavailableObjects();
 
-            if (_iapService.IsInitialized)
+            if (!_iapService.IsInitialized)
                 return;
 
+            ClearShopItems();
+
+            await FillShopItems();
+        }
+
+        private void ClearShopItems()
+        {
             foreach (GameObject shopItem in _shopItems)
                 Destroy(shopItem);
+        }
 
+        private async Task FillShopItems()
+        {
             foreach (ProductDescription productDescription in _iapService.Products())
             {
                 GameObject shopItemObject = await _assets.Instantiate(ShopItemPath, _parent);
                 ShopItem shopItem = shopItemObject.GetComponent<ShopItem>();
 
+                shopItem.Construct(_iapService, _assets, productDescription);
+
+                shopItem.Initialize();
+
                 _shopItems.Add(shopItem.gameObject);
             }
         }
 
-        private void UpdateUnavailableObjects()
+        private void UpdateShopUnavailableObjects()
         {
             foreach (GameObject shopUnavailableObject in _shopUnavailableObjects)
                 shopUnavailableObject.SetActive(!_iapService.IsInitialized);
         }
-    }
-
-    public class ShopItem : MonoBehaviour
-    {
     }
 }

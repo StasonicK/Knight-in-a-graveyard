@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Purchasing;
 
 namespace CodeBase.Services.IAP
@@ -11,5 +12,7 @@ namespace CodeBase.Services.IAP
         public int MaxPurchaseCount;
         public ItemType ItemType;
         public int Quantity;
+        public string Price;
+        public string Icon;
     }
 }
