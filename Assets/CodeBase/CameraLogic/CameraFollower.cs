@@ -2,7 +2,7 @@
 
 namespace CodeBase.CameraLogic
 {
-    public class CameraFollowing : MonoBehaviour
+    public class CameraFollower : MonoBehaviour
     {
         [SerializeField] private Transform _following;
         [SerializeField] private float _rotationAngleX;
