@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CodeBase.Enemy;
 using CodeBase.Infrastructure.AssetManagement;
+using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
 using CodeBase.Logic.EnemySpawners;
 using CodeBase.Services.PersistentProgress;
@@ -22,19 +23,21 @@ namespace CodeBase.Infrastructure.Factory
         private readonly IRandomService _randomService;
         private readonly IPersistentProgressService _persistentProgressService;
         private readonly IWindowService _windowService;
+        private readonly IGameStateMachine _stateMachine;
         private GameObject _heroGameObject;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
 
         public GameFactory(IAssets assets, IStaticDataService staticData, IRandomService randomService,
-            IPersistentProgressService persistentProgressService, IWindowService windowService)
+            IPersistentProgressService persistentProgressService, IWindowService windowService, IGameStateMachine stateMachine)
         {
             _assets = assets;
             _staticData = staticData;
             _randomService = randomService;
             _persistentProgressService = persistentProgressService;
             _windowService = windowService;
+            _stateMachine = stateMachine;
         }
 
         public async Task WarmUp()
@@ -104,6 +107,14 @@ namespace CodeBase.Infrastructure.Factory
 
         public void Unregister(LootPiece lootPiece)
         {
+        }
+
+        public async Task CreateLevelTransfer(Vector3 at)
+        {
+            GameObject prefab = await InstantiateRegisteredAsync(AssetAddress.LevelTransferTrigger, at);
+            LevelTransferTrigger levelTransfer = prefab.GetComponent<LevelTransferTrigger>();
+
+            levelTransfer.Construct(_stateMachine);
         }
 
         public async Task<LootPiece> CreateLoot()

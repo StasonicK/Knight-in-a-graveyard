@@ -63,7 +63,8 @@ namespace CodeBase.Infrastructure.States
                     _services.Single<IStaticDataService>(),
                     _services.Single<IRandomService>(),
                     _services.Single<IPersistentProgressService>(),
-                    _services.Single<IWindowService>()
+                    _services.Single<IWindowService>(),
+                    _services.Single<IGameStateMachine>()
                 ));
 
             _services.RegisterSingle<ISaveLoadService>(

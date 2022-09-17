@@ -6,5 +6,6 @@
         public const string HudPath = "Hud";
         public const string Loot = "Loot";
         public const string Spawner = "SpawnPoint";
+        public const string LevelTransferTrigger = "LevelTransferTrigger";
     }
 }

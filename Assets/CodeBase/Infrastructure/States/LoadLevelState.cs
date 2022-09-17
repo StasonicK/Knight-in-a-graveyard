@@ -77,6 +77,7 @@ namespace CodeBase.Infrastructure.States
             await InitSpawners(levelData);
             await InitLootPieces();
             GameObject hero = await InitHero(levelData);
+            // await InitLevelTransfer(levelData);
             await InitHud(hero);
             CameraFollow(hero);
         }
@@ -100,6 +101,9 @@ namespace CodeBase.Infrastructure.States
             foreach (EnemySpawnerData spawnerData in levelData.EnemySpawners)
                 await _gameFactory.CreateSpawner(spawnerData.Id, spawnerData.Position, spawnerData.MonsterTypeId);
         }
+
+        // private async Task InitLevelTransfer(LevelStaticData levelData) =>
+        //     await _gameFactory.CreateLevelTransfer(levelData.LevelTransfer.Position);
 
         private async Task InitHud(GameObject hero)
         {

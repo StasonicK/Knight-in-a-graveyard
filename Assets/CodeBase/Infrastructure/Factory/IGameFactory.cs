@@ -24,5 +24,6 @@ namespace CodeBase.Infrastructure.Factory
         void CleanUp();
         void Register(LootPiece lootPiece);
         void Unregister(LootPiece lootPiece);
+        Task CreateLevelTransfer(Vector3 at);
     }
 }

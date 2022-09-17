@@ -1,5 +1,4 @@
 ﻿using CodeBase.Infrastructure.States;
-using CodeBase.Services;
 using UnityEngine;
 
 namespace CodeBase.Logic
@@ -11,11 +10,10 @@ namespace CodeBase.Logic
         private const string Player = "Player";
 
         private IGameStateMachine _stateMachine;
-
         private bool _triggered;
 
-        private void Awake() =>
-            _stateMachine = AllServices.Container.Single<IGameStateMachine>();
+        public void Construct(IGameStateMachine stateMachine) =>
+            _stateMachine = stateMachine;
 
         private void OnTriggerEnter(Collider other)
         {
