@@ -806,11 +806,13 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: ENABLE_UNITY_SERVICES_CORE_VERBOSE_LOGGING
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
     Android: 0
+    Standalone: 1
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}

@@ -10,6 +10,7 @@ namespace CodeBase.Services.IAP
     public class IAPProvider : IStoreListener
     {
         private const string IAPConfigsPath = "IAP/products";
+        private string environment = "production";
 
         private IStoreController _controller;
         private IExtensionProvider _extensions;
@@ -52,15 +53,15 @@ namespace CodeBase.Services.IAP
 
             Initialized?.Invoke();
 
-            Debug.Log($" UnityPurchasing initialization success.");
+            Debug.Log("UnityPurchasing initialization success.");
         }
 
         public void OnInitializeFailed(InitializationFailureReason error) =>
-            Debug.Log($" UnityPurchasing OnInitializeFailed {error}.");
+            Debug.Log($"UnityPurchasing OnInitializeFailed {error}.");
 
         public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs purchaseEvent)
         {
-            Debug.Log($" UnityPurchasing ProcessPurchase success {purchaseEvent.purchasedProduct.definition.id}.");
+            Debug.Log($"UnityPurchasing ProcessPurchase success {purchaseEvent.purchasedProduct.definition.id}.");
 
             return _iapService.ProcessPurchase(purchaseEvent.purchasedProduct);
         }
