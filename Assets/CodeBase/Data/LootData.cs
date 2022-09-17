@@ -7,6 +7,7 @@ namespace CodeBase.Data
     public class LootData
     {
         public int Collected;
+        public LootPieceDataDictionary LootPieceDataOnScene = new LootPieceDataDictionary();
 
         public Action Changed;
 

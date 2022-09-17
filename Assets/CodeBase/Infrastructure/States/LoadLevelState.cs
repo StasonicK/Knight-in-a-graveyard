@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using CodeBase.CameraLogic;
+using CodeBase.Data;
+using CodeBase.Enemy;
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Logic;
@@ -72,25 +75,22 @@ namespace CodeBase.Infrastructure.States
             var levelData = LevelStaticData();
 
             await InitSpawners(levelData);
-            // await InitDroppedLoot();
+            await InitLootPieces();
             GameObject hero = await InitHero(levelData);
             await InitHud(hero);
             CameraFollow(hero);
         }
 
-        // private async Task InitDroppedLoot()
-        // {
-        //     DroppedLoot droppedLoot = _progressService.Progress.WorldData.DroppedLoot;
-        //
-        //     foreach (DroppedItem drop in droppedLoot.Items)
-        //     {
-        //         LootPiece lootPiece = await _gameFactory.CreateLoot();
-        //         lootPiece.transform.position = drop.Position.AsUni;
-        //         lootPiece.Initialize(drop.Loot);
-        //     }
-        //
-        //     droppedLoot.Clear();
-        // }
+        private async Task InitLootPieces()
+        {
+            foreach (KeyValuePair<string, LootPieceData> item in _progressService.Progress.WorldData.LootData.LootPieceDataOnScene.Dictionary)
+            {
+                LootPiece lootPiece = await _gameFactory.CreateLoot();
+                lootPiece.GetComponent<UniqueId>().Id = item.Key;
+                lootPiece.Initialize(item.Value.Loot);
+                lootPiece.transform.position = item.Value.Position.AsUnityVector();
+            }
+        }
 
         private async Task<GameObject> InitHero(LevelStaticData levelStaticData) =>
             await _gameFactory.CreateHero(levelStaticData.InitialHeroPosition);

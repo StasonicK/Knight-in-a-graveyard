@@ -29,7 +29,7 @@ MonoBehaviour:
     m_Address: FatDragon
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: d587ba2fd38b20449986c007d26d2b8a
+  - m_GUID: e334b4bf27f68e140b54be67654d1cc4
     m_Address: Loot
     m_ReadOnly: 0
     m_SerializedLabels: []

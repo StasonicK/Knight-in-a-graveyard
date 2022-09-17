@@ -41,7 +41,7 @@ namespace CodeBase.Enemy
 
         private Loot GenerateLoot()
         {
-            return new Loot(_random.Next(_lootMin, _lootMax));
+            return new Loot { Value = _random.Next(_lootMin, _lootMax) };
         }
 
         public void SetLoot(int min, int max)
