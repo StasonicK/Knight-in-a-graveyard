@@ -15,24 +15,15 @@ namespace CodeBase.Infrastructure.States
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        // [Inject]
-        private ISceneLoader _sceneLoader;
+        [Inject] private ISceneLoader _sceneLoader;
         [Inject] private IGameFactory _gameFactory;
         [Inject] private IPersistentProgressService _progressService;
         [Inject] private IStaticDataService _staticDataService;
         [Inject] private IUIFactory _uiFactory;
         [Inject] private ISaveLoadService _saveLoadService;
 
-        // [Inject]
-        public GameStateMachine(
-            ISceneLoader sceneLoader, 
-            ILoadingCurtain loadingCurtain
-            // , IGameFactory gameFactory, IPersistentProgressService progressService,
-            // IStaticDataService staticDataService, IUIFactory uiFactory, ISaveLoadService saveLoadService
-            )
+        public GameStateMachine()
         {
-            _sceneLoader = sceneLoader;
-            
             _states = new Dictionary<Type, IExitableState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(_sceneLoader),

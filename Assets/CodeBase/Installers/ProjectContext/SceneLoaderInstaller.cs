@@ -9,12 +9,16 @@ namespace CodeBase.Installers.ProjectContext
 
         public override void InstallBindings()
         {
+            BindSceneLoader();
+        }
+
+        private void BindSceneLoader()
+        {
             Container.Bind<ISceneLoader>()
                 .To<SceneLoader>()
                 .FromInstance(new SceneLoader(_gameBootstrapper))
                 .AsSingle()
-                .Lazy()
-                ;
+                .NonLazy();
         }
     }
 }

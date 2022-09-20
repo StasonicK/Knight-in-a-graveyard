@@ -7,8 +7,8 @@ namespace CodeBase.Installers.ProjectContext
 {
     public class GameInstaller : MonoInstaller
     {
-        [Inject] private ILoadingCurtain _loadingCurtain;
-        [Inject] private ISceneLoader _sceneLoader;
+        // [Inject] private ILoadingCurtain _loadingCurtain;
+        // [Inject] private ISceneLoader _sceneLoader;
 
         public override void InstallBindings()
         {
@@ -18,8 +18,9 @@ namespace CodeBase.Installers.ProjectContext
         private void BindGame()
         {
             Container
-                .Bind<Game>()
-                .FromInstance(new Game(_sceneLoader, _loadingCurtain))
+                .Bind<IGame>()
+                .To<Game>()
+                // .FromInstance(new Game(_sceneLoader, _loadingCurtain))
                 .AsSingle();
         }
     }

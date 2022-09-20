@@ -1,37 +1,60 @@
 ﻿using CodeBase.Infrastructure;
-using CodeBase.Infrastructure.States;
+using CodeBase.Logic;
 using UnityEngine;
 using Zenject;
 
 namespace CodeBase.Installers.ProjectContext
 {
-    public class GameBootstrapperInstaller : MonoInstaller, IInitializable
+    public class GameBootstrapperInstaller : MonoInstaller
     {
+        [SerializeField] private LoadingCurtain _loadingCurtain;
         [SerializeField] private GameBootstrapper _gameBootstrapper;
 
         public override void InstallBindings()
         {
-            BindInstallerInterfaces();
+            BindLoadingCurtain();
+            BindSceneLoader();
+            BindGame();
             BindGameBootstrapper();
         }
 
-        private void BindInstallerInterfaces()
+        private void BindLoadingCurtain()
         {
-            Container.BindInterfacesTo<GameBootstrapperInstaller>().FromInstance(this).AsSingle();
+            Container
+                .Bind<ILoadingCurtain>()
+                .To<LoadingCurtain>()
+                .FromNewComponentOnNewPrefab(_loadingCurtain)
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindSceneLoader()
+        {
+            Container.Bind<ISceneLoader>()
+                .To<SceneLoader>()
+                .FromInstance(new SceneLoader(_gameBootstrapper))
+                .AsSingle()
+                .NonLazy();
+        }
+
+        private void BindGame()
+        {
+            Container
+                .Bind<IGame>()
+                .To<Game>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle()
+                .NonLazy();
         }
 
         private void BindGameBootstrapper()
         {
             Container
-                .Bind<GameBootstrapper>()
-                .FromNewComponentOnNewPrefab(_gameBootstrapper)
-                .AsSingle();
-        }
-
-        public void Initialize()
-        {
-            IGameStateMachine gameStateMachine = Container.Resolve<IGameStateMachine>();
-            gameStateMachine.Enter<BootstrapState>();
+                .Bind<ICoroutineRunner>()
+                .To<GameBootstrapper>()
+                .FromComponentInNewPrefab(_gameBootstrapper)
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

@@ -74,3 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58545e739db4c0f99ff61210755e4c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loadingCurtain: {fileID: 6075522246452587080, guid: 90e047abcb024ae428f40ad979fb80ac,
+    type: 3}
+  _gameBootstrapper: {fileID: 2797032679983567818, guid: 1796456e341f028459142a37ba4161cf,
+    type: 3}

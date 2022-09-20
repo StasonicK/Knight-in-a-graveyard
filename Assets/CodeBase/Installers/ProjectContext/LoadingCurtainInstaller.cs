@@ -19,7 +19,8 @@ namespace CodeBase.Installers.ProjectContext
                 .Bind<ILoadingCurtain>()
                 .To<LoadingCurtain>()
                 .FromNewComponentOnNewPrefab(_loadingCurtain)
-                .AsSingle();
+                .AsSingle()
+                .NonLazy();
         }
     }
 }
