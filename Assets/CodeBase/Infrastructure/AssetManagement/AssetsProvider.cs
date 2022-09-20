@@ -6,10 +6,15 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace CodeBase.Infrastructure.AssetManagement
 {
-    public class AssetsProvider : IAssets
+    public sealed class AssetsProvider : IAssets
     {
         private readonly Dictionary<string, AsyncOperationHandle> _completedCache = new Dictionary<string, AsyncOperationHandle>();
         private readonly Dictionary<string, List<AsyncOperationHandle>> _handles = new Dictionary<string, List<AsyncOperationHandle>>();
+
+        public AssetsProvider()
+        {
+            Initialize();
+        }
 
         public void Initialize()
         {

@@ -2,6 +2,7 @@
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Services.PersistentProgress;
 using UnityEngine;
+using Zenject;
 
 namespace CodeBase.Services.SaveLoad
 {
@@ -12,6 +13,7 @@ namespace CodeBase.Services.SaveLoad
 
         private const string ProgressKey = "Progress";
 
+        [Inject]
         public SaveLoadService(IPersistentProgressService progressService, IGameFactory gameFactory)
         {
             _progressService = progressService;

@@ -4,6 +4,7 @@ using System.Linq;
 using CodeBase.Data;
 using CodeBase.Services.PersistentProgress;
 using UnityEngine.Purchasing;
+using Zenject;
 
 namespace CodeBase.Services.IAP
 {
@@ -16,10 +17,15 @@ namespace CodeBase.Services.IAP
 
         public event Action Initialized;
 
-        public IAPService(IAPProvider iapProvider, IPersistentProgressService progressService)
+        [Inject]
+        public IAPService(
+            // IAPProvider iapProvider, 
+            IPersistentProgressService progressService)
         {
-            _iapProvider = iapProvider;
+            _iapProvider = new IAPProvider();
             _progressService = progressService;
+
+            Initialize();
         }
 
         public void Initialize()

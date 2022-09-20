@@ -8,6 +8,7 @@ using CodeBase.StaticData.Windows;
 using CodeBase.UI.Services.Windows;
 using CodeBase.UI.Windows.Shop;
 using UnityEngine;
+using Zenject;
 
 namespace CodeBase.UI.Services.Factory
 {
@@ -23,6 +24,7 @@ namespace CodeBase.UI.Services.Factory
 
         private Transform _uiRoot;
 
+        [Inject]
         public UIFactory(IAssets assets, IStaticDataService staticData,
             IPersistentProgressService progressService, IAdsService adsService, IIAPService iapService)
         {

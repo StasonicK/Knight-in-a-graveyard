@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CodeBase.Logic
 {
-    public class LoadingCurtain : MonoBehaviour
+    public class LoadingCurtain : MonoBehaviour, ILoadingCurtain
     {
         [SerializeField] private CanvasGroup _curtain;
 

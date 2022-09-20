@@ -1,5 +1,6 @@
 ﻿using CodeBase.Infrastructure.States;
 using UnityEngine;
+using Zenject;
 
 namespace CodeBase.Logic
 {
@@ -12,6 +13,7 @@ namespace CodeBase.Logic
         private IGameStateMachine _stateMachine;
         private bool _triggered;
 
+        [Inject] 
         public void Construct(IGameStateMachine stateMachine) =>
             _stateMachine = stateMachine;
 

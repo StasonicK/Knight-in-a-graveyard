@@ -12,7 +12,8 @@ namespace CodeBase.Infrastructure
 
             if (bootstrapper != null) return;
 
-            Instantiate(BootstrapperPrefab);
+            
+            // Instantiate(BootstrapperPrefab);
         }
     }
 }

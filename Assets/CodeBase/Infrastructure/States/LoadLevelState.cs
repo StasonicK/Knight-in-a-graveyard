@@ -13,6 +13,7 @@ using CodeBase.UI.Elements;
 using CodeBase.UI.Services.Factory;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace CodeBase.Infrastructure.States
 {
@@ -20,15 +21,16 @@ namespace CodeBase.Infrastructure.States
     {
         private const string InitialPointTag = "InitialPoint";
 
-        private readonly GameStateMachine _stateMachine;
-        private readonly SceneLoader _sceneLoader;
-        private readonly LoadingCurtain _loadingCurtain;
+        private readonly IGameStateMachine _stateMachine;
+        private readonly ISceneLoader _sceneLoader;
+        private readonly ILoadingCurtain _loadingCurtain;
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
         private readonly IStaticDataService _staticData;
         private readonly IUIFactory _uiFactory;
 
-        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain loadingCurtain,
+        [Inject]
+        public LoadLevelState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader, ILoadingCurtain loadingCurtain,
             IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticData,
             IUIFactory uiFactory)
         {

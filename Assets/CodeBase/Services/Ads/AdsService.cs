@@ -22,6 +22,11 @@ namespace CodeBase.Services.Ads
 
         public int Reward => 13;
 
+        public AdsService()
+        {
+            Initialize();
+        }
+
         public void Initialize()
         {
             switch (Application.platform)

@@ -1,20 +1,25 @@
 ﻿using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
 using UnityEngine;
+using Zenject;
 
 namespace CodeBase.Infrastructure
 {
     public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {
         public LoadingCurtain CurtainPrefab;
+        public ILoadingCurtain LoadingCurtain;
+        public ISceneLoader SceneLoader;
         private Game _game;
 
         private void Awake()
         {
-            _game = new Game(this, Instantiate(CurtainPrefab));
-            _game.StateMachine.Enter<BootstrapState>();
-
-            DontDestroyOnLoad(this);
+            // LoadingCurtain = Instantiate(CurtainPrefab);
+            // SceneLoader = new SceneLoader(this);
+            // _game = new Game(SceneLoader, LoadingCurtain);
+            // _game.GameStateMachine.Enter<BootstrapState>();
+            //
+            // DontDestroyOnLoad(this);
         }
     }
 }

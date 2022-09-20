@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Logic;
-using CodeBase.Services;
 using CodeBase.Services.PersistentProgress;
 using CodeBase.Services.SaveLoad;
 using CodeBase.Services.StaticData;
 using CodeBase.UI.Services.Factory;
+using Zenject;
 
 namespace CodeBase.Infrastructure.States
 {
@@ -15,17 +15,30 @@ namespace CodeBase.Infrastructure.States
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain loadingCurtain, AllServices services)
+        // [Inject]
+        private ISceneLoader _sceneLoader;
+        [Inject] private IGameFactory _gameFactory;
+        [Inject] private IPersistentProgressService _progressService;
+        [Inject] private IStaticDataService _staticDataService;
+        [Inject] private IUIFactory _uiFactory;
+        [Inject] private ISaveLoadService _saveLoadService;
+
+        // [Inject]
+        public GameStateMachine(
+            ISceneLoader sceneLoader, 
+            ILoadingCurtain loadingCurtain
+            // , IGameFactory gameFactory, IPersistentProgressService progressService,
+            // IStaticDataService staticDataService, IUIFactory uiFactory, ISaveLoadService saveLoadService
+            )
         {
+            _sceneLoader = sceneLoader;
+            
             _states = new Dictionary<Type, IExitableState>()
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
+                [typeof(BootstrapState)] = new BootstrapState(_sceneLoader),
                 [typeof(LoadLevelState)] =
-                    new LoadLevelState(this, sceneLoader, loadingCurtain, services.Single<IGameFactory>(),
-                        services.Single<IPersistentProgressService>(), services.Single<IStaticDataService>(),
-                        services.Single<IUIFactory>()),
-                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentProgressService>(),
-                    services.Single<ISaveLoadService>()),
+                    new LoadLevelState(this, _sceneLoader, loadingCurtain, _gameFactory, _progressService, _staticDataService, _uiFactory),
+                [typeof(LoadProgressState)] = new LoadProgressState(this, _progressService, _saveLoadService),
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }

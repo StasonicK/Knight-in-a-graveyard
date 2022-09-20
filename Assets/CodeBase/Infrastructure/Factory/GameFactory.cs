@@ -13,10 +13,11 @@ using CodeBase.UI.Elements;
 using CodeBase.UI.Services.Windows;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 namespace CodeBase.Infrastructure.Factory
 {
-    public class GameFactory : IGameFactory
+    public sealed class GameFactory : IGameFactory
     {
         private readonly IAssets _assets;
         private readonly IStaticDataService _staticData;
@@ -29,6 +30,7 @@ namespace CodeBase.Infrastructure.Factory
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
 
+        [Inject]
         public GameFactory(IAssets assets, IStaticDataService staticData, IRandomService randomService,
             IPersistentProgressService persistentProgressService, IWindowService windowService, IGameStateMachine stateMachine)
         {

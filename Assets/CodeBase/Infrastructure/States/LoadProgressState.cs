@@ -1,6 +1,7 @@
 ﻿using CodeBase.Data;
 using CodeBase.Services.PersistentProgress;
 using CodeBase.Services.SaveLoad;
+using Zenject;
 
 namespace CodeBase.Infrastructure.States
 {
@@ -10,6 +11,7 @@ namespace CodeBase.Infrastructure.States
         private readonly IPersistentProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
 
+        [Inject]
         public LoadProgressState(GameStateMachine stateMachine, IPersistentProgressService progressService,
             ISaveLoadService saveLoadService)
         {
