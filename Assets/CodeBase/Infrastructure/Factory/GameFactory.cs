@@ -24,7 +24,7 @@ namespace CodeBase.Infrastructure.Factory
         private readonly IRandomService _randomService;
         private readonly IPersistentProgressService _persistentProgressService;
         private readonly IWindowService _windowService;
-        private readonly IGameStateMachine _stateMachine;
+        private readonly GameStateMachine _stateMachine;
         private GameObject _heroGameObject;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
@@ -32,7 +32,7 @@ namespace CodeBase.Infrastructure.Factory
 
         [Inject]
         public GameFactory(IAssets assets, IStaticDataService staticData, IRandomService randomService,
-            IPersistentProgressService persistentProgressService, IWindowService windowService, IGameStateMachine stateMachine)
+            IPersistentProgressService persistentProgressService, IWindowService windowService, GameStateMachine stateMachine)
         {
             _assets = assets;
             _staticData = staticData;

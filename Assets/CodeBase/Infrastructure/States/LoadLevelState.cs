@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodeBase.CameraLogic;
 using CodeBase.Data;
@@ -21,26 +22,31 @@ namespace CodeBase.Infrastructure.States
     {
         private const string InitialPointTag = "InitialPoint";
 
-        private readonly IGameStateMachine _stateMachine;
-        private readonly ISceneLoader _sceneLoader;
-        private readonly ILoadingCurtain _loadingCurtain;
-        private readonly IGameFactory _gameFactory;
-        private readonly IPersistentProgressService _progressService;
-        private readonly IStaticDataService _staticData;
-        private readonly IUIFactory _uiFactory;
+        // private readonly GameStateMachine _stateMachine;
+    [Inject]    private readonly ISceneLoader _sceneLoader;
+    [Inject]    private readonly ILoadingCurtain _loadingCurtain;
+    [Inject]    private readonly IGameFactory _gameFactory;
+    [Inject]    private readonly IPersistentProgressService _progressService;
+    [Inject]    private readonly IStaticDataService _staticData;
+    [Inject]    private readonly IUIFactory _uiFactory;
+        
+        public event Action Entered;
 
-        [Inject]
-        public LoadLevelState(IGameStateMachine gameStateMachine, ISceneLoader sceneLoader, ILoadingCurtain loadingCurtain,
-            IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticData,
-            IUIFactory uiFactory)
+        // [Inject]
+        public LoadLevelState(
+            // GameStateMachine gameStateMachine, 
+            // ISceneLoader sceneLoader, ILoadingCurtain loadingCurtain,
+            // IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticData,
+            // IUIFactory uiFactory
+            )
         {
-            _stateMachine = gameStateMachine;
-            _sceneLoader = sceneLoader;
-            _loadingCurtain = loadingCurtain;
-            _gameFactory = gameFactory;
-            _progressService = progressService;
-            _staticData = staticData;
-            _uiFactory = uiFactory;
+            // _stateMachine = gameStateMachine;
+            // _sceneLoader = sceneLoader;
+            // _loadingCurtain = loadingCurtain;
+            // _gameFactory = gameFactory;
+            // _progressService = progressService;
+            // _staticData = staticData;
+            // _uiFactory = uiFactory;
         }
 
         public void Enter(string sceneName)
@@ -51,7 +57,7 @@ namespace CodeBase.Infrastructure.States
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
-        public void Exit() =>
+        public void Exit() => 
             _loadingCurtain.Hide();
 
         private async void OnLoaded()
@@ -59,8 +65,10 @@ namespace CodeBase.Infrastructure.States
             await InitUIRoot();
             await InitGameWorld();
             InformProgressReaders();
+            
+            Entered?.Invoke();
 
-            _stateMachine.Enter<GameLoopState>();
+            // _stateMachine.Enter<GameLoopState>();
         }
 
         private async Task InitUIRoot() =>

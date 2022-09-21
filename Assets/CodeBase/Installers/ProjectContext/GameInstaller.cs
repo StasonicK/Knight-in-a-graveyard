@@ -1,6 +1,4 @@
 ﻿using CodeBase.Infrastructure;
-using CodeBase.Logic;
-using UnityEngine;
 using Zenject;
 
 namespace CodeBase.Installers.ProjectContext

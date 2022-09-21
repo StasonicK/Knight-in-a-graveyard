@@ -1,7 +1,7 @@
 using CodeBase.UI.Services.Windows;
 using Zenject;
 
-namespace CodeBase.Installers
+namespace CodeBase.Installers.SceneContext
 {
     public class WindowServiceInstaller : MonoInstaller
     {

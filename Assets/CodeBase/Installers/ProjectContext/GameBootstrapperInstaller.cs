@@ -25,7 +25,8 @@ namespace CodeBase.Installers.ProjectContext
                 .To<LoadingCurtain>()
                 .FromNewComponentOnNewPrefab(_loadingCurtain)
                 .AsSingle()
-                .NonLazy();
+                // .NonLazy()
+                ;
         }
 
         private void BindSceneLoader()
@@ -34,7 +35,8 @@ namespace CodeBase.Installers.ProjectContext
                 .To<SceneLoader>()
                 .FromInstance(new SceneLoader(_gameBootstrapper))
                 .AsSingle()
-                .NonLazy();
+                // .NonLazy()
+                ;
         }
 
         private void BindGame()
@@ -44,7 +46,8 @@ namespace CodeBase.Installers.ProjectContext
                 .To<Game>()
                 .FromNewComponentOnNewGameObject()
                 .AsSingle()
-                .NonLazy();
+                // .NonLazy()
+                ;
         }
 
         private void BindGameBootstrapper()
@@ -54,7 +57,8 @@ namespace CodeBase.Installers.ProjectContext
                 .To<GameBootstrapper>()
                 .FromComponentInNewPrefab(_gameBootstrapper)
                 .AsSingle()
-                .NonLazy();
+                // .NonLazy()
+                ;
         }
     }
 }

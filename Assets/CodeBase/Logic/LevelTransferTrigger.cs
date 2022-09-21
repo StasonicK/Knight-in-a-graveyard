@@ -10,11 +10,11 @@ namespace CodeBase.Logic
 
         private const string Player = "Player";
 
-        private IGameStateMachine _stateMachine;
+        private GameStateMachine _stateMachine;
         private bool _triggered;
 
-        [Inject] 
-        public void Construct(IGameStateMachine stateMachine) =>
+        // [Inject]
+        public void Construct(GameStateMachine stateMachine) =>
             _stateMachine = stateMachine;
 
         private void OnTriggerEnter(Collider other)

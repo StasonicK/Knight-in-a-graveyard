@@ -1,4 +1,5 @@
-﻿using Zenject;
+﻿using System;
+using Zenject;
 
 namespace CodeBase.Infrastructure.States
 {
@@ -6,21 +7,24 @@ namespace CodeBase.Infrastructure.States
     {
         private const string Initial = "Initial";
 
-        [Inject] private readonly IGameStateMachine _stateMachine;
+        // [Inject] 
+        // private readonly IGameStateMachine _stateMachine;
 
-        // [Inject]   
-        private readonly ISceneLoader _sceneLoader;
+        [Inject] 
+        private  ISceneLoader _sceneLoader;
         // private AllServices _services;
+        
+        public event Action Entered;
 
         [Inject]
         public BootstrapState(
             // IGameStateMachine stateMachine,
-            ISceneLoader sceneLoader
-        // , AllServices services
+            // ISceneLoader sceneLoader
+            // , AllServices services
         )
         {
             // _stateMachine = stateMachine;
-            _sceneLoader = sceneLoader;
+            // _sceneLoader = sceneLoader;
             // _services = services;
 
             // RegisterServices();
@@ -28,7 +32,7 @@ namespace CodeBase.Infrastructure.States
 
         public void Enter() => _sceneLoader.Load(name: Initial, onLoaded: EnterLoadLevel);
 
-        private void EnterLoadLevel() => _stateMachine.Enter<LoadProgressState>();
+        private void EnterLoadLevel() => Entered?.Invoke();
 
         // private void RegisterServices()
         // {

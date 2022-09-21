@@ -1,12 +1,19 @@
-﻿namespace CodeBase.Infrastructure.States
+﻿using System;
+
+namespace CodeBase.Infrastructure.States
 {
     public class GameLoopState : IState
     {
-        private readonly GameStateMachine _stateMachine;
+        public event Action Entered;
 
-        public GameLoopState(GameStateMachine stateMachine)
+        // private readonly GameStateMachine _stateMachine;
+
+
+        public GameLoopState(
+            // GameStateMachine stateMachine
+            )
         {
-            _stateMachine = stateMachine;
+            // _stateMachine = stateMachine;
         }
 
         public void Enter()

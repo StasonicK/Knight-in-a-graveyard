@@ -1,4 +1,5 @@
-﻿using CodeBase.Data;
+﻿using System;
+using CodeBase.Data;
 using CodeBase.Services.PersistentProgress;
 using CodeBase.Services.SaveLoad;
 using Zenject;
@@ -7,23 +8,28 @@ namespace CodeBase.Infrastructure.States
 {
     public class LoadProgressState : IState
     {
-        private readonly GameStateMachine _stateMachine;
-        private readonly IPersistentProgressService _progressService;
-        private readonly ISaveLoadService _saveLoadService;
+        // private readonly GameStateMachine _stateMachine;
+   [Inject]     private readonly IPersistentProgressService _progressService;
+   [Inject]     private readonly ISaveLoadService _saveLoadService;
 
-        [Inject]
-        public LoadProgressState(GameStateMachine stateMachine, IPersistentProgressService progressService,
-            ISaveLoadService saveLoadService)
+        public event Action Entered;
+
+        // [Inject]
+        public LoadProgressState(
+            // GameStateMachine stateMachine, 
+            // IPersistentProgressService progressService,
+            // ISaveLoadService saveLoadService
+            )
         {
-            _stateMachine = stateMachine;
-            _progressService = progressService;
-            _saveLoadService = saveLoadService;
+            // _stateMachine = stateMachine;
+            // _progressService = progressService;
+            // _saveLoadService = saveLoadService;
         }
 
         public void Enter()
         {
             LoadProgressOrInitNew();
-            _stateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel.Level);
+            Entered?.Invoke();
         }
 
         public void Exit()

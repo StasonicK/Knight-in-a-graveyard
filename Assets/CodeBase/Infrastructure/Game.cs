@@ -1,10 +1,4 @@
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.States;
 using CodeBase.Logic;
-using CodeBase.Services.PersistentProgress;
-using CodeBase.Services.SaveLoad;
-using CodeBase.Services.StaticData;
-using CodeBase.UI.Services.Factory;
 using UnityEngine;
 using Zenject;
 
@@ -14,8 +8,8 @@ namespace CodeBase.Infrastructure
     {
         public ILoadingCurtain LoadingCurtain;
 
-        [Inject] 
-        private   IGameStateMachine _gameStateMachine;
+        // [Inject] 
+        // private   IGameStateMachine _gameStateMachine;
 
         // [Inject] 
         private ISceneLoader _sceneLoader;
@@ -27,7 +21,7 @@ namespace CodeBase.Infrastructure
 
         [Inject]
         public Game(
-            ISceneLoader sceneLoader, 
+            ISceneLoader sceneLoader,
             ILoadingCurtain loadingCurtain)
         {
             LoadingCurtain = loadingCurtain;
@@ -38,10 +32,10 @@ namespace CodeBase.Infrastructure
             //     // _saveLoadService
             //     );
         }
-
-        public IGameStateMachine GetGameStateMachine()
-        {
-            return _gameStateMachine;
-        }
+        //
+        // public IGameStateMachine GetGameStateMachine()
+        // {
+        //     return _gameStateMachine;
+        // }
     }
 }
