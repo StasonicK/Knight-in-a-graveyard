@@ -8,7 +8,7 @@ namespace CodeBase.Enemy
     {
         [SerializeField] private EnemyDeath _enemyDeath;
 
-        private IGameFactory _factory;
+        private GameFactory _factory;
         private int _lootMin;
         private int _lootMax;
 
@@ -16,7 +16,7 @@ namespace CodeBase.Enemy
 
         private Loot _loot;
 
-        public void Construct(IGameFactory factory, IRandomService random)
+        public void Construct(GameFactory factory, IRandomService random)
         {
             _factory = factory;
             _random = random;

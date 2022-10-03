@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CodeBase.Services.PersistentProgress;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Zenject;
 
 namespace CodeBase.Infrastructure.AssetManagement
 {
@@ -10,15 +12,70 @@ namespace CodeBase.Infrastructure.AssetManagement
     {
         private readonly Dictionary<string, AsyncOperationHandle> _completedCache = new Dictionary<string, AsyncOperationHandle>();
         private readonly Dictionary<string, List<AsyncOperationHandle>> _handles = new Dictionary<string, List<AsyncOperationHandle>>();
+        public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
+        public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
 
+        [Inject]
         public AssetsProvider()
         {
             Initialize();
         }
 
+        public List<ISavedProgressReader> GetProgressReaders() =>
+            ProgressReaders;
+
         public void Initialize()
         {
             Addressables.InitializeAsync();
+        }
+
+        public async Task WarmUp()
+        {
+            await Load<GameObject>(AssetAddress.Loot);
+            await Load<GameObject>(AssetAddress.Spawner);
+        }
+
+
+        public GameObject InstantiateRegistered(GameObject prefab, Vector3 at)
+        {
+            GameObject gameObject = Object.Instantiate(prefab, at, Quaternion.identity);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        public GameObject InstantiateRegistered(GameObject prefab)
+        {
+            GameObject gameObject = Object.Instantiate(prefab);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        public async Task<GameObject> InstantiateRegisteredAsync(string prefabPath, Vector3 at)
+        {
+            GameObject gameObject = await Instantiate(prefabPath, at: at);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        public async Task<GameObject> InstantiateRegisteredAsync(string prefabPath)
+        {
+            GameObject gameObject = await Instantiate(prefabPath);
+            RegisterProgressWatchers(gameObject);
+            return gameObject;
+        }
+
+        private void RegisterProgressWatchers(GameObject gameObject)
+        {
+            foreach (ISavedProgressReader progressReader in gameObject.GetComponentsInChildren<ISavedProgressReader>())
+                Register(progressReader);
+        }
+
+        public void Register(ISavedProgressReader progressReader)
+        {
+            if (progressReader is ISavedProgress progressWriter)
+                ProgressWriters.Add(progressWriter);
+
+            ProgressReaders.Add(progressReader);
         }
 
         public async Task<T> Load<T>(AssetReference assetReference) where T : class
@@ -44,7 +101,7 @@ namespace CodeBase.Infrastructure.AssetManagement
         public Task<GameObject> Instantiate(string address) =>
             Addressables.InstantiateAsync(address).Task;
 
-        public Task<GameObject> Instantiate(string address, Vector3 at) =>
+        private Task<GameObject> Instantiate(string address, Vector3 at) =>
             Addressables.InstantiateAsync(address, at, Quaternion.identity).Task;
 
         public Task<GameObject> Instantiate(string address, Transform parent) =>
@@ -52,6 +109,9 @@ namespace CodeBase.Infrastructure.AssetManagement
 
         public void CleanUp()
         {
+            ProgressReaders.Clear();
+            ProgressWriters.Clear();
+
             foreach (List<AsyncOperationHandle> resourceHandles in _handles.Values)
             foreach (AsyncOperationHandle handle in resourceHandles)
                 Addressables.Release(handle);

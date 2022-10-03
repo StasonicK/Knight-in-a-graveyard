@@ -1,10 +1,12 @@
 ﻿using System.Threading.Tasks;
 using CodeBase.Infrastructure.AssetManagement;
+using CodeBase.Infrastructure.Factory;
 using CodeBase.Services.Ads;
 using CodeBase.Services.IAP;
 using CodeBase.Services.PersistentProgress;
 using CodeBase.Services.StaticData;
 using CodeBase.StaticData.Windows;
+using CodeBase.UI.Elements;
 using CodeBase.UI.Services.Windows;
 using CodeBase.UI.Windows.Shop;
 using UnityEngine;
@@ -21,18 +23,31 @@ namespace CodeBase.UI.Services.Factory
         private readonly IPersistentProgressService _progressService;
         private readonly IAdsService _adsService;
         private readonly IIAPService _iapService;
+        private readonly IWindowService _windowService;
 
         private Transform _uiRoot;
 
         [Inject]
         public UIFactory(IAssets assets, IStaticDataService staticData,
-            IPersistentProgressService progressService, IAdsService adsService, IIAPService iapService)
+            IPersistentProgressService progressService, IAdsService adsService, IIAPService iapService, IWindowService windowService)
         {
             _assets = assets;
             _staticData = staticData;
             _progressService = progressService;
             _adsService = adsService;
             _iapService = iapService;
+            _windowService = windowService;
+        }
+        
+        public async Task<GameObject> CreateHud()
+        {
+            GameObject hud = await _assets.InstantiateRegisteredAsync(AssetAddress.HudPath);
+            hud.GetComponentInChildren<LootCounter>().Construct(_progressService.Progress.WorldData);
+
+            foreach (OpenWindowButton openWindowButton in hud.GetComponentsInChildren<OpenWindowButton>())
+                openWindowButton.Construct(_windowService);
+
+            return hud;
         }
 
         public void CreateShop()

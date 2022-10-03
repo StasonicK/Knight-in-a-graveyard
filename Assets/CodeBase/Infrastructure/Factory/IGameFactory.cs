@@ -22,8 +22,6 @@ namespace CodeBase.Infrastructure.Factory
         Task<LootPiece> CreateLoot();
         Task CreateSpawner(string spawnerId, Vector3 at, MonsterTypeId spawnerDataMonsterTypeId);
         void CleanUp();
-        void Register(LootPiece lootPiece);
-        void Unregister(LootPiece lootPiece);
         Task CreateLevelTransfer(Vector3 at);
     }
 }

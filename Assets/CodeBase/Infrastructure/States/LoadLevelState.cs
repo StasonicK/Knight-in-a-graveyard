@@ -5,6 +5,7 @@ using CodeBase.CameraLogic;
 using CodeBase.Data;
 using CodeBase.Enemy;
 using CodeBase.Hero;
+using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Logic;
 using CodeBase.Services.PersistentProgress;
@@ -23,13 +24,15 @@ namespace CodeBase.Infrastructure.States
         private const string InitialPointTag = "InitialPoint";
 
         // private readonly GameStateMachine _stateMachine;
-    [Inject]    private readonly ISceneLoader _sceneLoader;
-    [Inject]    private readonly ILoadingCurtain _loadingCurtain;
-    [Inject]    private readonly IGameFactory _gameFactory;
-    [Inject]    private readonly IPersistentProgressService _progressService;
-    [Inject]    private readonly IStaticDataService _staticData;
-    [Inject]    private readonly IUIFactory _uiFactory;
-        
+        [Inject] private readonly ISceneLoader _sceneLoader;
+        [Inject] private readonly ILoadingCurtain _loadingCurtain;
+        [Inject] private readonly IAssets _assets;
+        [Inject] private readonly LootCreator _lootCreator;
+        [Inject] private readonly GameFactory _gameFactory;
+        [Inject] private readonly IPersistentProgressService _progressService;
+        [Inject] private readonly IStaticDataService _staticData;
+        [Inject] private readonly IUIFactory _uiFactory;
+
         public event Action Entered;
 
         // [Inject]
@@ -38,7 +41,7 @@ namespace CodeBase.Infrastructure.States
             // ISceneLoader sceneLoader, ILoadingCurtain loadingCurtain,
             // IGameFactory gameFactory, IPersistentProgressService progressService, IStaticDataService staticData,
             // IUIFactory uiFactory
-            )
+        )
         {
             // _stateMachine = gameStateMachine;
             // _sceneLoader = sceneLoader;
@@ -49,15 +52,15 @@ namespace CodeBase.Infrastructure.States
             // _uiFactory = uiFactory;
         }
 
-        public void Enter(string sceneName)
+        public async void Enter(string sceneName)
         {
             _loadingCurtain.Show();
-            _gameFactory.CleanUp();
-            _gameFactory.WarmUp();
+            _assets.CleanUp();
+            await _assets.WarmUp();
             _sceneLoader.Load(sceneName, OnLoaded);
         }
 
-        public void Exit() => 
+        public void Exit() =>
             _loadingCurtain.Hide();
 
         private async void OnLoaded()
@@ -65,7 +68,7 @@ namespace CodeBase.Infrastructure.States
             await InitUIRoot();
             await InitGameWorld();
             InformProgressReaders();
-            
+
             Entered?.Invoke();
 
             // _stateMachine.Enter<GameLoopState>();
@@ -76,7 +79,7 @@ namespace CodeBase.Infrastructure.States
 
         private void InformProgressReaders()
         {
-            foreach (ISavedProgressReader progressReader in _gameFactory.ProgressReaders)
+            foreach (ISavedProgressReader progressReader in _assets.GetProgressReaders())
                 progressReader.LoadProgress(_progressService.Progress);
         }
 
@@ -96,7 +99,7 @@ namespace CodeBase.Infrastructure.States
         {
             foreach (KeyValuePair<string, LootPieceData> item in _progressService.Progress.WorldData.LootData.LootPieceDataOnScene.Dictionary)
             {
-                LootPiece lootPiece = await _gameFactory.CreateLoot();
+                LootPiece lootPiece = await _lootCreator.CreateLoot();
                 lootPiece.GetComponent<UniqueId>().Id = item.Key;
                 lootPiece.Initialize(item.Value.Loot);
                 lootPiece.transform.position = item.Value.Position.AsUnityVector();
@@ -117,7 +120,7 @@ namespace CodeBase.Infrastructure.States
 
         private async Task InitHud(GameObject hero)
         {
-            GameObject hud = await _gameFactory.CreateHud();
+            GameObject hud = await _uiFactory.CreateHud();
             hud.GetComponentInChildren<ActorUI>().Construct(hero.GetComponent<HeroHealth>());
         }
 
