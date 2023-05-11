@@ -8,7 +8,7 @@ namespace CodeBase.Data
     {
         public List<BoughtIAP> BoughtIAPs = new List<BoughtIAP>();
 
-        public Action Changed;
+        public event Action Changed;
 
         public void AddPurchase(string id)
         {

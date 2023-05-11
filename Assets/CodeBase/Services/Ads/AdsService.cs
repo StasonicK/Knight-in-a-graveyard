@@ -13,7 +13,7 @@ namespace CodeBase.Services.Ads
         private const string RewardedVideoPlacementId = "rewardedVideo";
 
         private string _gameId;
-        private Action _onVideoFinished;
+        private event Action _onVideoFinished;
 
         public event Action RewardedVideoReady;
 

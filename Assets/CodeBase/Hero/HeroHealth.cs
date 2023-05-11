@@ -35,7 +35,6 @@ namespace CodeBase.Hero
             set => _state.MaxHP = value;
         }
 
-
         public void LoadProgress(PlayerProgress progress)
         {
             _state = progress.HeroState;

@@ -9,7 +9,7 @@ namespace CodeBase.Data
         public int Collected;
         public LootPieceDataDictionary LootPieceDataOnScene = new LootPieceDataDictionary();
 
-        public Action Changed;
+        public event Action Changed;
 
         public void Collect(Loot loot)
         {
